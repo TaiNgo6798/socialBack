@@ -2170,7 +2170,7 @@
         "signature": "8f1241f5d9f0d3d72117768b3c974e462840fbd85026fb66685078945404cf2f"
       },
       "../src/app.service.ts": {
-        "version": "eaf8514ce110fa428a93a27408df4d06d133dbd9ed0a775c315ddfdd507853a9",
+        "version": "75c86bac6f7e65e12d5bc62c194619a032a9d8f0e5b9b9979e1b0d28de4e9ac2",
         "signature": "653711fba8904aa27fd8911b63cf526e7b334e13a292da4cefdbbe179ac3f3f2"
       },
       "../node_modules/graphql/version.d.ts": {
@@ -3514,7 +3514,7 @@
         "signature": "2e6e936b3b9aaef19326908ab82edbce75084e3cf6e638d1f8da743f5eaeef5f"
       },
       "../src/graphql.schema.ts": {
-        "version": "88d7e033bc1d8acae9bcbd5e6e4a0fd6eceb9b27e3d2c915d2e78a179bb61810",
+        "version": "6783ed836807523bd52f2914fe60033c5a8846b33149766b335f5105454458fd",
         "signature": "f7dafef6ba5595b243e6e88dc93b14ece1488d6fd85cc3125f01d29f1effdd6f"
       },
       "../src/common/guard/auth.guard.ts": {
@@ -3522,7 +3522,7 @@
         "signature": "83c448022f25718d9c729f24c2abad1ee4b97fb0e8b2ed0029f6c5bda8b7d1ff"
       },
       "../src/modules/user/user.resolver.ts": {
-        "version": "0cc076355c74e4a3dd25568e1bd3428365aee925a2371d035a9f2db05514c320",
+        "version": "aaeffbb7ce264c11a1f13487b41da60b53b848c8a2e1a4ef3bf9b7ac429b2c71",
         "signature": "9e9cc43a48028e92ce1eaa3bdd304475310731544a3c2033e58a9d21a7ab79b6"
       },
       "../src/modules/user/user.module.ts": {
@@ -3538,7 +3538,7 @@
         "signature": "888f5a2cd4f298f2f1246041075b214385513e29137801cd5e101c6031fa7fba"
       },
       "../src/modules/article/article.module.ts": {
-        "version": "e95e8c40e8703d606c6475c384dfcc1fe76df2aed29e7d35da6cf42fbdd2d6d6",
+        "version": "ecc75eafe89dd87325614fa208c3c5a459bac35060c9d55aeedd234fc8fd73d0",
         "signature": "05e9ac66e118c99ad657229f14b117a21eac7f64512ec69ecd450ba205b8739e"
       },
       "../src/app.module.ts": {
@@ -3550,7 +3550,7 @@
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../src/main.ts": {
-        "version": "9fe1e2e19cb5bbddb1ad4f4c99a27ad739e4cb5b62f6a872ea1a4978113d2f30",
+        "version": "e2b1c29beee98623d61fbce227ebc8b2a835a0897edfa2156dde5b84f58c32d0",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../node_modules/@types/anymatch/index.d.ts": {
@@ -22154,10 +22154,14 @@
       "../node_modules/@nestjs/graphql/dist/index.d.ts",
       "../node_modules/@nestjs/graphql/index.d.ts",
       "../node_modules/@types/jsonwebtoken/index.d.ts",
-      "../src/modules/user/user.service.ts",
       "../src/entities/user.entity.ts",
+      "../src/graphql.schema.ts",
       "../src/common/guard/auth.guard.ts",
+      "../src/modules/user/user.module.ts",
       "../src/entities/article.entity.ts",
+      "../src/modules/article/article.resolver.ts",
+      "../src/modules/article/article.module.ts",
+      "../src/app.module.ts",
       "../src/generate.typings.ts",
       "../src/main.ts",
       "../node_modules/@types/anymatch/index.d.ts",
@@ -22284,12 +22288,8 @@
       "../node_modules/@types/webpack/index.d.ts",
       "../node_modules/@types/yargs-parser/index.d.ts",
       "../node_modules/@types/yargs/index.d.ts",
-      "../src/graphql.schema.ts",
-      "../src/modules/article/article.resolver.ts",
-      "../src/modules/user/user.resolver.ts",
-      "../src/modules/user/user.module.ts",
-      "../src/modules/article/article.module.ts",
-      "../src/app.module.ts"
+      "../src/modules/user/user.service.ts",
+      "../src/modules/user/user.resolver.ts"
     ]
   },
   "version": "3.7.4"

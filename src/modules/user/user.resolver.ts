@@ -38,7 +38,7 @@ export class UserResolver {
         }, 'taingo6798')
         return {
           status: 2,
-          message: 'Dang nhap thanh cong !',
+          message: 'Dang nhap thanh cong  !',
           token
         }
       } else return {
