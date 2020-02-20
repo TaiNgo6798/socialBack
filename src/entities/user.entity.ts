@@ -1,4 +1,4 @@
-import { Entity, Column, ObjectIdColumn } from 'typeorm'
+import { Entity, Column, ObjectIdColumn, PrimaryColumn } from 'typeorm'
 
 @Entity({
   name: 'user'
@@ -7,8 +7,8 @@ export class UserEntity {
   @ObjectIdColumn()
   _id: string
 
-  @Column()
-  username: string
+  @PrimaryColumn()
+  email: string
   @Column()
   password: string
   @Column()

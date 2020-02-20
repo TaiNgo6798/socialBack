@@ -14,61 +14,85 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("@nestjs/graphql");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../../entities/user.entity");
 const graphql_schema_1 = require("../../graphql.schema");
+const auth_guard_1 = require("../../common/guard/auth.guard");
+const saltRounds = 10;
 let UserResolver = class UserResolver {
+    async users(context) {
+        return typeorm_1.getMongoManager().find(user_entity_1.UserEntity, {});
+    }
     async login(loginInput) {
-        const { username, password } = loginInput;
+        const { email, password } = loginInput;
         const user = await typeorm_1.getMongoManager().findOne(user_entity_1.UserEntity, {
-            username,
-            password
+            email
         });
         try {
-            const token = jwt.sign({ data: user }, 'taingo6798', {
-                expiresIn: '24h'
-            });
-            return {
-                status: 'success',
-                message: 'Dang nhap thanh cong !',
-                token
-            };
+            if (bcrypt.compareSync(password, user.password)) {
+                const { _id, firstName, lastName } = user;
+                const token = jwt.sign({
+                    _id,
+                    firstName,
+                    lastName
+                }, 'taingo6798');
+                return {
+                    status: 2,
+                    message: 'Dang nhap thanh cong !',
+                    token
+                };
+            }
+            else
+                return {
+                    status: 1,
+                    message: 'Sai mat khau !',
+                };
         }
         catch (err) {
             return {
-                status: 'failed',
+                status: 0,
                 message: 'Dang nhap that bai !',
-                token: ''
             };
         }
     }
-    async users() {
-        return typeorm_1.getMongoManager().find(user_entity_1.UserEntity, {});
-    }
     async createUser(user) {
         try {
-            const newUser = new user_entity_1.UserEntity(user);
-            const savedRes = await typeorm_1.getMongoManager().save(user_entity_1.UserEntity, newUser);
-            return true;
+            const { email, password, firstName, lastName } = user;
+            const newUser = new user_entity_1.UserEntity({
+                email,
+                password: bcrypt.hashSync(password, saltRounds),
+                firstName,
+                lastName
+            });
+            const duplicateUser = await typeorm_1.getMongoManager().findOne(user_entity_1.UserEntity, {
+                email
+            });
+            if (!duplicateUser) {
+                const savedRes = await typeorm_1.getMongoManager().save(user_entity_1.UserEntity, newUser);
+                return true;
+            }
+            return false;
         }
-        catch (_a) {
+        catch (err) {
             return false;
         }
     }
 };
 __decorate([
     graphql_1.Query(),
+    __param(0, graphql_1.Context()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "users", null);
+__decorate([
+    graphql_1.Mutation(),
     __param(0, graphql_1.Args('loginInput')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "login", null);
-__decorate([
-    graphql_1.Query(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], UserResolver.prototype, "users", null);
 __decorate([
     graphql_1.Mutation(),
     __param(0, graphql_1.Args('user')),

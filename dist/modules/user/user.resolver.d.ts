@@ -1,6 +1,6 @@
-import { User } from 'src/graphql.schema';
+import { User } from 'src/graphql.schema'
 export declare class UserResolver {
-    login(loginInput: any): Promise<any>;
-    users(): Promise<User[]>;
-    createUser(user: any): Promise<any>;
+    users(context: any): Promise<User[]>
+    login(loginInput: any): Promise<any>
+    createUser(user: any): Promise<any>
 }

@@ -7,9 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
+const jwt = require("jsonwebtoken");
 let UserService = class UserService {
     async decodeToken(token) {
-        return { userID: '1', signedAt: 1577590325199 };
+        try {
+            const data = await jwt.verify(token, 'taingo6798');
+            return data;
+        }
+        catch (error) {
+            return null;
+        }
     }
 };
 UserService = __decorate([
