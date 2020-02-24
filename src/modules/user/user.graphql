@@ -4,15 +4,25 @@ type User {
   password: String
   firstName: String
   lastName: String
+  avatar: String
 }
 
 type Query {
   users: [User]
+  getUserByID(_id: String): UserInfo
 }
 
 type Mutation {
   createUser( user:  UserInput): Boolean
   login(loginInput: UserLoginInput): LoginRes
+}
+
+type UserInfo {
+    _id: ID
+  email: String
+  firstName: String
+  lastName: String
+  avatar: String
 }
 
 input UserInput {

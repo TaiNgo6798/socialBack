@@ -1,18 +1,22 @@
 import { Entity, Column, ObjectIdColumn } from 'typeorm'
 
 @Entity({
-  name: 'article'
+  name: 'post'
 })
-export class ArticleEntity {
+export class PostEntity {
   @ObjectIdColumn()
   _id: string
 
   @Column()
+  who: any
+  @Column()
+  image: string
+  @Column()
   content: string
   @Column()
-  time: string
+  time: number
 
-  constructor(args: Partial<ArticleEntity>) {
+  constructor(args: Partial<PostEntity>) {
     Object.assign(this, args)
   }
 }

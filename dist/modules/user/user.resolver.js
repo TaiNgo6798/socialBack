@@ -18,11 +18,19 @@ const bcrypt = require("bcrypt");
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../../entities/user.entity");
 const graphql_schema_1 = require("../../graphql.schema");
-const auth_guard_1 = require("../../common/guard/auth.guard");
 const saltRounds = 10;
 let UserResolver = class UserResolver {
     async users(context) {
         return typeorm_1.getMongoManager().find(user_entity_1.UserEntity, {});
+    }
+    async getUserByID(_id) {
+        try {
+            const res = await typeorm_1.getMongoManager().findOne(user_entity_1.UserEntity, _id);
+            return res;
+        }
+        catch (error) {
+            return null;
+        }
     }
     async login(loginInput) {
         const { email, password } = loginInput;
@@ -31,11 +39,13 @@ let UserResolver = class UserResolver {
         });
         try {
             if (bcrypt.compareSync(password, user.password)) {
-                const { _id, firstName, lastName } = user;
+                const { _id, firstName, lastName, avatar } = user;
                 const token = jwt.sign({
                     _id,
+                    email,
                     firstName,
-                    lastName
+                    lastName,
+                    avatar
                 }, 'taingo6798');
                 return {
                     status: 2,
@@ -86,6 +96,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "users", null);
+__decorate([
+    graphql_1.Query(),
+    __param(0, graphql_1.Args('_id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "getUserByID", null);
 __decorate([
     graphql_1.Mutation(),
     __param(0, graphql_1.Args('loginInput')),

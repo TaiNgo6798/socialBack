@@ -13,7 +13,9 @@ const app_service_1 = require("./app.service");
 const graphql_1 = require("@nestjs/graphql");
 const user_module_1 = require("./modules/user/user.module");
 const path_1 = require("path");
-const article_module_1 = require("./modules/article/article.module");
+const post_module_1 = require("./modules/post/post.module");
+const likes_module_1 = require("./modules/likes/likes.module");
+const comment_module_1 = require("./modules/comment/comment.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -34,7 +36,9 @@ AppModule = __decorate([
                 context: ({ req }) => ({ req })
             }),
             user_module_1.UserModule,
-            article_module_1.ArticleModule
+            post_module_1.PostModule,
+            likes_module_1.LikesModule,
+            comment_module_1.CommentModule
         ],
         controllers: [],
         providers: [app_service_1.AppService],

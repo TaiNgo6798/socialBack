@@ -21,15 +21,23 @@ __decorate([
 ], PostEntity.prototype, "_id", void 0);
 __decorate([
     typeorm_1.Column(),
+    __metadata("design:type", Object)
+], PostEntity.prototype, "who", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], PostEntity.prototype, "image", void 0);
+__decorate([
+    typeorm_1.Column(),
     __metadata("design:type", String)
 ], PostEntity.prototype, "content", void 0);
 __decorate([
     typeorm_1.Column(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], PostEntity.prototype, "time", void 0);
 PostEntity = __decorate([
     typeorm_1.Entity({
-        name: 'user'
+        name: 'post'
     }),
     __metadata("design:paramtypes", [Object])
 ], PostEntity);

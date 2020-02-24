@@ -3,9 +3,8 @@ import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt'
 import { getMongoManager } from 'typeorm'
 import { UserEntity } from 'src/entities/user.entity'
-import { User } from 'src/graphql.schema'
-import { GqlAuthGuard } from 'src/common/guard/auth.guard'
-import { UseGuards } from '@nestjs/common'
+import { User, UserInfo } from 'src/graphql.schema'
+
 
 
 const saltRounds = 10
@@ -20,6 +19,17 @@ export class UserResolver {
     return getMongoManager().find(UserEntity, {})
   }
 
+  @Query()
+  async getUserByID(@Args('_id') _id): Promise<UserInfo> {
+    try {
+      const res = await getMongoManager().findOne(UserEntity, _id)
+      return res
+    } catch (error) {
+      return null
+    }
+
+  }
+
   //-----------------------------------------------------------------------------------MUTATIONS------------------------------------------------------------------------------------------------------------------------
   @Mutation()
   async login(@Args('loginInput') loginInput): Promise<any> {
@@ -28,13 +38,14 @@ export class UserResolver {
       email
     })
     try {
-
       if (bcrypt.compareSync(password, user.password)) {
-        const { _id, firstName, lastName } = user
+        const { _id, firstName, lastName, avatar } = user
         const token = jwt.sign({
           _id,
+          email,
           firstName,
-          lastName
+          lastName,
+          avatar
         }, 'taingo6798')
         return {
           status: 2,

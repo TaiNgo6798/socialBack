@@ -13,18 +13,80 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("@nestjs/graphql");
+const common_1 = require("@nestjs/common");
+const auth_guard_1 = require("../../common/guard/auth.guard");
 const typeorm_1 = require("typeorm");
 const post_entity_1 = require("../../entities/post.entity");
+const mongodb_1 = require("mongodb");
+const likes_service_1 = require("../likes/likes.service");
+const comment_service_1 = require("../comment/comment.service");
 let PostResolver = class PostResolver {
-    async getPosts(context) {
-        const foundPosts = await typeorm_1.getMongoManager().find(post_entity_1.PostEntity, {});
-        return foundPosts;
+    constructor(likesService, commentService) {
+        this.likesService = likesService;
+        this.commentService = commentService;
+    }
+    async posts(context) {
+        const postList = await typeorm_1.getMongoManager().find(post_entity_1.PostEntity, {});
+        return postList;
+    }
+    async getOnePost(Context, _id) {
+        try {
+            const savedResult = await typeorm_1.getMongoManager().findOne(post_entity_1.PostEntity, _id);
+            return savedResult;
+        }
+        catch (error) {
+            return null;
+        }
     }
     async addPost(Context, post) {
-        const { content, time } = post;
-        const newPost = new post_entity_1.PostEntity({ content, time });
-        const savedResult = await typeorm_1.getMongoManager().save(post_entity_1.PostEntity, newPost);
-        return savedResult;
+        try {
+            const { user } = Context;
+            const { content } = post;
+            const newPost = new post_entity_1.PostEntity({
+                who: user._id,
+                image: 'chua co',
+                content,
+                time: Date.now()
+            });
+            const savedResult = await typeorm_1.getMongoManager().save(post_entity_1.PostEntity, newPost);
+            return true;
+        }
+        catch (error) {
+            return null;
+        }
+    }
+    async deletePost(Context, id) {
+        try {
+            const res = await Promise.all([
+                this.likesService.deleteLikesOnePost(id),
+                this.commentService.deleteCommentOnePost(id),
+                typeorm_1.getMongoManager().findOneAndDelete(post_entity_1.PostEntity, {
+                    _id: new mongodb_1.ObjectID(id)
+                })
+            ]);
+            return (res[2].value) ? true : false;
+        }
+        catch (err) {
+            console.log(err);
+            return false;
+        }
+    }
+    async updatePost(Context, post) {
+        try {
+            const { _id, content } = post;
+            const res = await typeorm_1.getMongoManager().findOneAndUpdate(post_entity_1.PostEntity, {
+                _id: new mongodb_1.ObjectID(_id)
+            }, {
+                $set: {
+                    content,
+                    time: Date.now()
+                }
+            });
+            return res.value ? true : false;
+        }
+        catch (error) {
+            return false;
+        }
     }
 };
 __decorate([
@@ -33,7 +95,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], PostResolver.prototype, "getPosts", null);
+], PostResolver.prototype, "posts", null);
+__decorate([
+    graphql_1.Query(),
+    __param(0, graphql_1.Context()), __param(1, graphql_1.Args('_id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], PostResolver.prototype, "getOnePost", null);
 __decorate([
     graphql_1.Mutation(),
     __param(0, graphql_1.Context()), __param(1, graphql_1.Args('post')),
@@ -41,8 +110,25 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "addPost", null);
+__decorate([
+    graphql_1.Mutation(),
+    __param(0, graphql_1.Context()), __param(1, graphql_1.Args('postID')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], PostResolver.prototype, "deletePost", null);
+__decorate([
+    graphql_1.Mutation(),
+    __param(0, graphql_1.Context()), __param(1, graphql_1.Args('post')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], PostResolver.prototype, "updatePost", null);
 PostResolver = __decorate([
-    graphql_1.Resolver()
+    graphql_1.Resolver('Post'),
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
+    __metadata("design:paramtypes", [likes_service_1.LikesService,
+        comment_service_1.CommentService])
 ], PostResolver);
 exports.PostResolver = PostResolver;
 //# sourceMappingURL=post.resolver.js.map

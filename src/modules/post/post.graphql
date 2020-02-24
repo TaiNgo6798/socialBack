@@ -1,0 +1,31 @@
+
+type Post {
+  _id: ID
+  who: String
+  image: String
+  content: String
+  time: Float
+}
+
+
+type Query {
+  posts: [Post]
+  getOnePost(_id: String!): Post
+  getPostsByUserID(userID: String!): [Post]
+}
+
+type Mutation {
+  addPost(post: PostInput!): Boolean
+  deletePost(postID: String!): Boolean
+  updatePost( post: PostEditInput! ): Boolean
+}
+
+input PostEditInput {
+    _id: ID!
+  content: String!
+}
+
+input PostInput {
+  content: String!
+}
+

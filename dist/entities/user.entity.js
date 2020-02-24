@@ -35,6 +35,10 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], UserEntity.prototype, "lastName", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], UserEntity.prototype, "avatar", void 0);
 UserEntity = __decorate([
     typeorm_1.Entity({
         name: 'user'

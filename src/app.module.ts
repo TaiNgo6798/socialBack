@@ -5,7 +5,9 @@ import { AppService } from './app.service'
 import { GraphQLModule } from '@nestjs/graphql'
 import { UserModule } from './modules/user/user.module'
 import { join } from 'path'
-import { ArticleModule } from './modules/article/article.module'
+import { PostModule } from './modules/post/post.module'
+import { LikesModule } from './modules/likes/likes.module'
+import { CommentModule } from './modules/comment/comment.module'
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -23,7 +25,10 @@ import { ArticleModule } from './modules/article/article.module'
       context: ({ req }) => ({ req })
     }), 
     UserModule, 
-    ArticleModule],
+    PostModule,
+    LikesModule,
+    CommentModule
+  ],
   controllers: [],
   providers: [AppService],
 })

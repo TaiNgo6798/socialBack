@@ -1,11 +1,9 @@
-export interface ArticleEditInput {
-    _id?: string;
-    content?: string;
-    time?: string;
-}
-export interface ArticleInput {
+export interface PostEditInput {
+    _id: string;
     content: string;
-    time: string;
+}
+export interface PostInput {
+    content: string;
 }
 export interface UserInput {
     email: string;
@@ -17,10 +15,16 @@ export interface UserLoginInput {
     email?: string;
     password?: string;
 }
-export interface Article {
+export interface Comment {
     _id?: string;
-    content?: string;
-    time?: string;
+    who?: UserInfo;
+    postID?: string;
+    text?: string;
+    time?: number;
+}
+export interface Likes {
+    _postID?: string;
+    likeList?: string[];
 }
 export interface LoginRes {
     status?: string;
@@ -28,17 +32,32 @@ export interface LoginRes {
     token?: string;
 }
 export interface IMutation {
-    addArticle(article?: ArticleInput): Article | Promise<Article>;
-    deleteArticle(articleID?: string): boolean | Promise<boolean>;
-    updateArticle(article?: ArticleEditInput): boolean | Promise<boolean>;
+    postOneComment(postID: string): Comment | Promise<Comment>;
+    editOneComment(_id: string, text: string): Comment | Promise<Comment>;
+    deleteOneComment(_id: string): boolean | Promise<boolean>;
+    likeOnePost(_postID: string): boolean | Promise<boolean>;
+    unLikeOnePost(_postID: string): boolean | Promise<boolean>;
+    addPost(post: PostInput): boolean | Promise<boolean>;
+    deletePost(postID: string): boolean | Promise<boolean>;
+    updatePost(post: PostEditInput): boolean | Promise<boolean>;
     createUser(user?: UserInput): boolean | Promise<boolean>;
     login(loginInput?: UserLoginInput): LoginRes | Promise<LoginRes>;
 }
+export interface Post {
+    _id?: string;
+    who?: string;
+    image?: string;
+    content?: string;
+    time?: number;
+}
 export interface IQuery {
-    articles(): Article[] | Promise<Article[]>;
-    getArticle(articleID?: string): Article | Promise<Article>;
-    search(searchText?: string): string | Promise<string>;
+    getCommentsByPostID(id: string): Comment[] | Promise<Comment[]>;
+    getLikesByPostID(_postID: string): UserInfo[] | Promise<UserInfo[]>;
+    posts(): Post[] | Promise<Post[]>;
+    getOnePost(_id: string): Post | Promise<Post>;
+    getPostsByUserID(userID: string): Post[] | Promise<Post[]>;
     users(): User[] | Promise<User[]>;
+    getUserByID(_id?: string): UserInfo | Promise<UserInfo>;
 }
 export interface User {
     _id?: string;
@@ -46,4 +65,12 @@ export interface User {
     password?: string;
     firstName?: string;
     lastName?: string;
+    avatar?: string;
+}
+export interface UserInfo {
+    _id?: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    avatar?: string;
 }

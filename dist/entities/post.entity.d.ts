@@ -1,6 +1,8 @@
 export declare class PostEntity {
-    _id: string
-    content: string
-    time: string
-    constructor(args: Partial<PostEntity>)
+    _id: string;
+    who: any;
+    image: string;
+    content: string;
+    time: number;
+    constructor(args: Partial<PostEntity>);
 }
