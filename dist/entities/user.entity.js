@@ -20,9 +20,9 @@ __decorate([
     __metadata("design:type", String)
 ], UserEntity.prototype, "_id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.PrimaryColumn(),
     __metadata("design:type", String)
-], UserEntity.prototype, "username", void 0);
+], UserEntity.prototype, "email", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
@@ -35,6 +35,10 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], UserEntity.prototype, "lastName", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], UserEntity.prototype, "avatar", void 0);
 UserEntity = __decorate([
     typeorm_1.Entity({
         name: 'user'

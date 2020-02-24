@@ -1,16 +1,16 @@
 import { Entity, Column, ObjectIdColumn } from 'typeorm'
 
 @Entity({
-  name: 'dishes'
+  name: 'likes'
 })
-export class DishEntity {
+export class LikeEntity {
   @ObjectIdColumn()
-  _id: string
+  _idPost: string
 
   @Column()
-  name: string
-
-  constructor(args: Partial<DishEntity>) {
+  likeList: any
+  
+  constructor(args: Partial<LikeEntity>) {
     Object.assign(this, args)
   }
 }

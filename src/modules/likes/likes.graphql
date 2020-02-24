@@ -1,0 +1,13 @@
+type Likes {
+  _postID: ID
+  likeList: [String]
+}
+
+type Query {
+  getLikesByPostID(_postID: String!): [UserInfo]
+}
+
+type Mutation {
+  likeOnePost(_postID: String!): Boolean
+  unLikeOnePost(_postID: String!): Boolean
+}

@@ -20,9 +20,17 @@ let GqlAuthGuard = class GqlAuthGuard {
         try {
             const gqlCtx = graphql_1.GqlExecutionContext.create(context);
             const { authorization } = gqlCtx.getContext().req.headers;
-            gqlCtx.getContext().user = { username: 'User A', permission: ['FOO', 'BAR'] };
+            const token = authorization.split(' ')[1];
+            const user = await this.userService.decodeToken(token);
+            if (user) {
+                gqlCtx.getContext().user = user;
+            }
+            else {
+                return false;
+            }
         }
         catch (err) {
+            console.log(err);
             return false;
         }
         return true;

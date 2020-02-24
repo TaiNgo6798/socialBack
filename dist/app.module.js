@@ -10,11 +10,12 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const app_service_1 = require("./app.service");
-const dish_module_1 = require("./modules/dish/dish.module");
 const graphql_1 = require("@nestjs/graphql");
 const user_module_1 = require("./modules/user/user.module");
 const path_1 = require("path");
-const article_module_1 = require("./modules/article/article.module");
+const post_module_1 = require("./modules/post/post.module");
+const likes_module_1 = require("./modules/likes/likes.module");
+const comment_module_1 = require("./modules/comment/comment.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -23,18 +24,21 @@ AppModule = __decorate([
             config_1.ConfigModule.forRoot(),
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mongodb',
-                database: 'lunchtest',
+                database: 'social_app',
                 url: `mongodb+srv://taingo:taingo6798@cluster0-tjufa.mongodb.net/test?retryWrites=true&w=majority`,
                 entities: [path_1.join(__dirname, '**/**.entity{.ts,.js}')],
                 synchronize: true,
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             }),
-            dish_module_1.DishModule,
             graphql_1.GraphQLModule.forRoot({
                 typePaths: ['./**/*.graphql'],
                 context: ({ req }) => ({ req })
-            }), user_module_1.UserModule, article_module_1.ArticleModule
+            }),
+            user_module_1.UserModule,
+            post_module_1.PostModule,
+            likes_module_1.LikesModule,
+            comment_module_1.CommentModule
         ],
         controllers: [],
         providers: [app_service_1.AppService],

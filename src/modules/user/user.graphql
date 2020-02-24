@@ -1,22 +1,32 @@
 type User {
   _id: ID
-  username: String
+  email: String
   password: String
   firstName: String
   lastName: String
+  avatar: String
 }
 
 type Query {
-  login(loginInput: UserLoginInput): LoginRes
   users: [User]
+  getUserByID(_id: String): UserInfo
 }
 
 type Mutation {
   createUser( user:  UserInput): Boolean
+  login(loginInput: UserLoginInput): LoginRes
+}
+
+type UserInfo {
+    _id: ID
+  email: String
+  firstName: String
+  lastName: String
+  avatar: String
 }
 
 input UserInput {
-  username: String!
+  email: String!
   password: String!
   firstName: String!
   lastName: String!
@@ -29,6 +39,6 @@ type LoginRes {
 }
 
 input UserLoginInput {
-  username: String
+  email: String
   password: String
 }

@@ -1,3 +1,3 @@
 export declare class UserService {
-    decodeToken(token: String): Promise<any>;
+    decodeToken(token: string): Promise<any>;
 }

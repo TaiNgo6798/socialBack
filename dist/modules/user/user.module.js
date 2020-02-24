@@ -14,7 +14,7 @@ let UserModule = class UserModule {
 UserModule = __decorate([
     common_1.Module({
         providers: [user_service_1.UserService, user_resolver_1.UserResolver],
-        exports: [user_service_1.UserService]
+        exports: [user_service_1.UserService, user_resolver_1.UserResolver]
     })
 ], UserModule);
 exports.UserModule = UserModule;
