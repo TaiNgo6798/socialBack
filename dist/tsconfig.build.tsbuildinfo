@@ -3602,7 +3602,7 @@
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../src/main.ts": {
-        "version": "1d3534345811cffdbc8b3642d454c57f3f7a38b29dc2ba1ba05f0082f3436156",
+        "version": "7182fb8410e2317b8f92dea0a66b9b622c7cc797a99865d060c96a841d15812b",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../node_modules/@types/anymatch/index.d.ts": {
@@ -22405,6 +22405,7 @@
       "../src/modules/dish/dish.resolver.ts",
       "../node_modules/@types/jsonwebtoken/index.d.ts",
       "../src/entities/user.entity.ts",
+      "../src/modules/user/user.resolver.ts",
       "../src/modules/user/user.module.ts",
       "../src/modules/dish/dish.module.ts",
       "../src/entities/article.entity.ts",
@@ -22412,7 +22413,6 @@
       "../src/modules/article/article.module.ts",
       "../src/app.module.ts",
       "../src/generate.typings.ts",
-      "../src/main.ts",
       "../node_modules/@types/anymatch/index.d.ts",
       "../node_modules/@babel/types/lib/index.d.ts",
       "../node_modules/@types/babel__generator/index.d.ts",
@@ -22537,7 +22537,7 @@
       "../node_modules/@types/webpack/index.d.ts",
       "../node_modules/@types/yargs-parser/index.d.ts",
       "../node_modules/@types/yargs/index.d.ts",
-      "../src/modules/user/user.resolver.ts"
+      "../src/main.ts"
     ]
   },
   "version": "3.7.4"
