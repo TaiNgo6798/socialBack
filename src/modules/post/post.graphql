@@ -4,6 +4,7 @@ type Post {
   who: String
   image: String
   content: String
+  likes: [String]
   time: Float
 }
 
@@ -18,14 +19,17 @@ type Mutation {
   addPost(post: PostInput!): Boolean
   deletePost(postID: String!): Boolean
   updatePost( post: PostEditInput! ): Boolean
+  likeAPost(postID: String!): Boolean
 }
 
 input PostEditInput {
     _id: ID!
-  content: String!
+  content: String,
+  image: String
 }
 
 input PostInput {
-  content: String!
+  content: String!,
+  image: String!
 }
 

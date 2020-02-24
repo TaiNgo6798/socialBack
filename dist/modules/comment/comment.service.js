@@ -15,7 +15,6 @@ let CommentService = class CommentService {
             const res = await typeorm_1.getMongoManager().deleteMany(comments_entity_1.CommentEntity, {
                 postID: id
             });
-            console.log('del comment !');
             return true;
         }
         catch (error) {

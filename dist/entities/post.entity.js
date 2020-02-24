@@ -33,6 +33,10 @@ __decorate([
 ], PostEntity.prototype, "content", void 0);
 __decorate([
     typeorm_1.Column(),
+    __metadata("design:type", Object)
+], PostEntity.prototype, "likes", void 0);
+__decorate([
+    typeorm_1.Column(),
     __metadata("design:type", Number)
 ], PostEntity.prototype, "time", void 0);
 PostEntity = __decorate([

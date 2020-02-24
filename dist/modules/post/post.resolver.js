@@ -18,11 +18,9 @@ const auth_guard_1 = require("../../common/guard/auth.guard");
 const typeorm_1 = require("typeorm");
 const post_entity_1 = require("../../entities/post.entity");
 const mongodb_1 = require("mongodb");
-const likes_service_1 = require("../likes/likes.service");
 const comment_service_1 = require("../comment/comment.service");
 let PostResolver = class PostResolver {
-    constructor(likesService, commentService) {
-        this.likesService = likesService;
+    constructor(commentService) {
         this.commentService = commentService;
     }
     async posts(context) {
@@ -38,13 +36,38 @@ let PostResolver = class PostResolver {
             return null;
         }
     }
+    async likeAPost(context, postID) {
+        try {
+            const { user } = context;
+            const post = await typeorm_1.getMongoManager().findOne(post_entity_1.PostEntity, { _id: new mongodb_1.ObjectID(postID) });
+            let { likes } = post;
+            if (likes.indexOf(user._id) !== -1) {
+                likes = [...likes.filter(v => v !== user._id)];
+            }
+            else {
+                likes = [...likes, user._id];
+            }
+            const result = await typeorm_1.getMongoManager().findOneAndUpdate(post_entity_1.PostEntity, {
+                _id: new mongodb_1.ObjectID(postID)
+            }, {
+                $set: {
+                    likes: likes
+                }
+            });
+            return true;
+        }
+        catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
     async addPost(Context, post) {
         try {
             const { user } = Context;
-            const { content } = post;
+            const { content, image } = post;
             const newPost = new post_entity_1.PostEntity({
                 who: user._id,
-                image: 'chua co',
+                image,
                 content,
                 time: Date.now()
             });
@@ -58,13 +81,12 @@ let PostResolver = class PostResolver {
     async deletePost(Context, id) {
         try {
             const res = await Promise.all([
-                this.likesService.deleteLikesOnePost(id),
                 this.commentService.deleteCommentOnePost(id),
                 typeorm_1.getMongoManager().findOneAndDelete(post_entity_1.PostEntity, {
                     _id: new mongodb_1.ObjectID(id)
                 })
             ]);
-            return (res[2].value) ? true : false;
+            return (res[1].value) ? true : false;
         }
         catch (err) {
             console.log(err);
@@ -105,6 +127,13 @@ __decorate([
 ], PostResolver.prototype, "getOnePost", null);
 __decorate([
     graphql_1.Mutation(),
+    __param(0, graphql_1.Context()), __param(1, graphql_1.Args('postID')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], PostResolver.prototype, "likeAPost", null);
+__decorate([
+    graphql_1.Mutation(),
     __param(0, graphql_1.Context()), __param(1, graphql_1.Args('post')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
@@ -127,8 +156,7 @@ __decorate([
 PostResolver = __decorate([
     graphql_1.Resolver('Post'),
     common_1.UseGuards(auth_guard_1.GqlAuthGuard),
-    __metadata("design:paramtypes", [likes_service_1.LikesService,
-        comment_service_1.CommentService])
+    __metadata("design:paramtypes", [comment_service_1.CommentService])
 ], PostResolver);
 exports.PostResolver = PostResolver;
 //# sourceMappingURL=post.resolver.js.map

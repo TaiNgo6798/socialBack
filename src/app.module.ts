@@ -6,8 +6,8 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { UserModule } from './modules/user/user.module'
 import { join } from 'path'
 import { PostModule } from './modules/post/post.module'
-import { LikesModule } from './modules/likes/likes.module'
 import { CommentModule } from './modules/comment/comment.module'
+import { FileModule } from './file/file.module'
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -26,8 +26,8 @@ import { CommentModule } from './modules/comment/comment.module'
     }), 
     UserModule, 
     PostModule,
-    LikesModule,
-    CommentModule
+    CommentModule,
+    FileModule
   ],
   controllers: [],
   providers: [AppService],

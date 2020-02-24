@@ -70,13 +70,14 @@ export class UserResolver {
   async createUser(@Args('user') user): Promise<any> {
 
     try {
-      const { email, password, firstName, lastName } = user
+      const { email, password, firstName, lastName, avatar } = user
 
       const newUser = new UserEntity({
         email,
         password: bcrypt.hashSync(password, saltRounds),
         firstName,
-        lastName
+        lastName,
+        avatar
       })
       const duplicateUser = await getMongoManager().findOne(UserEntity, {
         email

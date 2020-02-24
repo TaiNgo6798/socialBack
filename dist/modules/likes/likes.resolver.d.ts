@@ -1,3 +1,4 @@
 export declare class LikesResolver {
-    likeOnePost(context: any, _postID: any): Promise<Boolean>;
+    getLikesByPostID(postID: any): Promise<String>;
+    likeOnePost(context: any, postID: any): Promise<Boolean>;
 }

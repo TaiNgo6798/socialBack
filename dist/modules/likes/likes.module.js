@@ -9,10 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const likes_resolver_1 = require("./likes.resolver");
 const likes_service_1 = require("./likes.service");
+const user_module_1 = require("../user/user.module");
 let LikesModule = class LikesModule {
 };
 LikesModule = __decorate([
     common_1.Module({
+        imports: [user_module_1.UserModule],
         providers: [likes_resolver_1.LikesResolver, likes_service_1.LikesService],
         exports: [likes_resolver_1.LikesResolver, likes_service_1.LikesService]
     })

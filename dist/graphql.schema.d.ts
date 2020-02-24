@@ -1,9 +1,19 @@
+export interface CommentInput {
+    postID: string;
+    text: string;
+}
+export interface EditInput {
+    _id: string;
+    text: string;
+}
 export interface PostEditInput {
     _id: string;
-    content: string;
+    content?: string;
+    image?: string;
 }
 export interface PostInput {
     content: string;
+    image: string;
 }
 export interface UserInput {
     email: string;
@@ -17,14 +27,17 @@ export interface UserLoginInput {
 }
 export interface Comment {
     _id?: string;
-    who?: UserInfo;
+    who?: string;
     postID?: string;
     text?: string;
     time?: number;
 }
-export interface Likes {
-    _postID?: string;
-    likeList?: string[];
+export interface CommentOutput {
+    _id?: string;
+    who?: UserInfo;
+    postID?: string;
+    text?: string;
+    time?: number;
 }
 export interface LoginRes {
     status?: string;
@@ -32,14 +45,13 @@ export interface LoginRes {
     token?: string;
 }
 export interface IMutation {
-    postOneComment(postID: string): Comment | Promise<Comment>;
-    editOneComment(_id: string, text: string): Comment | Promise<Comment>;
+    postOneComment(commentInput: CommentInput): boolean | Promise<boolean>;
+    editOneComment(editInput: EditInput): boolean | Promise<boolean>;
     deleteOneComment(_id: string): boolean | Promise<boolean>;
-    likeOnePost(_postID: string): boolean | Promise<boolean>;
-    unLikeOnePost(_postID: string): boolean | Promise<boolean>;
     addPost(post: PostInput): boolean | Promise<boolean>;
     deletePost(postID: string): boolean | Promise<boolean>;
     updatePost(post: PostEditInput): boolean | Promise<boolean>;
+    likeAPost(postID: string): boolean | Promise<boolean>;
     createUser(user?: UserInput): boolean | Promise<boolean>;
     login(loginInput?: UserLoginInput): LoginRes | Promise<LoginRes>;
 }
@@ -48,11 +60,11 @@ export interface Post {
     who?: string;
     image?: string;
     content?: string;
+    likes?: string[];
     time?: number;
 }
 export interface IQuery {
-    getCommentsByPostID(id: string): Comment[] | Promise<Comment[]>;
-    getLikesByPostID(_postID: string): UserInfo[] | Promise<UserInfo[]>;
+    getCommentsByPostID(postID: string): CommentOutput[] | Promise<CommentOutput[]>;
     posts(): Post[] | Promise<Post[]>;
     getOnePost(_id: string): Post | Promise<Post>;
     getPostsByUserID(userID: string): Post[] | Promise<Post[]>;

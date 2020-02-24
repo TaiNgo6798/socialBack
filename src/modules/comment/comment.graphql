@@ -1,17 +1,35 @@
 type Comment {
   _id: ID
-  who: UserInfo
+  who: String
   postID: String
   text: String
   time: Float
 }
 
 type Query {
-  getCommentsByPostID(id: String!): [Comment]
+  getCommentsByPostID(postID: String!): [CommentOutput]
 }
 
 type Mutation {
-  postOneComment(postID: String!): Comment
-  editOneComment(_id: String!, text: String!): Comment
+  postOneComment(commentInput: CommentInput!): Boolean
+  editOneComment(editInput: EditInput!): Boolean
   deleteOneComment(_id: String!): Boolean
+}
+
+input CommentInput {
+  postID: String!
+  text: String!
+}
+
+input EditInput {
+  _id: String!
+  text: String!
+}
+
+type CommentOutput {
+    _id: ID
+  who: UserInfo
+  postID: String
+  text: String
+  time: Float
 }

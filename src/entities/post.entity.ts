@@ -14,6 +14,8 @@ export class PostEntity {
   @Column()
   content: string
   @Column()
+  likes: any
+  @Column()
   time: number
 
   constructor(args: Partial<PostEntity>) {

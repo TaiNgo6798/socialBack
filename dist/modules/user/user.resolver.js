@@ -68,12 +68,13 @@ let UserResolver = class UserResolver {
     }
     async createUser(user) {
         try {
-            const { email, password, firstName, lastName } = user;
+            const { email, password, firstName, lastName, avatar } = user;
             const newUser = new user_entity_1.UserEntity({
                 email,
                 password: bcrypt.hashSync(password, saltRounds),
                 firstName,
-                lastName
+                lastName,
+                avatar
             });
             const duplicateUser = await typeorm_1.getMongoManager().findOne(user_entity_1.UserEntity, {
                 email

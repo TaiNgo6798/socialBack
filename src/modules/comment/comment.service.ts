@@ -10,8 +10,6 @@ export class CommentService {
       const res = await getMongoManager().deleteMany(CommentEntity, { 
         postID: id
       })
-      console.log('del comment !')
-
       return true
     } catch (error) {
       return false

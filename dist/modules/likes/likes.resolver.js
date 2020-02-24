@@ -16,29 +16,54 @@ const graphql_1 = require("@nestjs/graphql");
 const typeorm_1 = require("typeorm");
 const likes_entity_1 = require("../../entities/likes.entity");
 const common_1 = require("@nestjs/common");
+const auth_guard_1 = require("../../common/guard/auth.guard");
+const graphql_schema_1 = require("../../graphql.schema");
 let LikesResolver = class LikesResolver {
-    async likeOnePost(context, _postID) {
+    async getLikesByPostID(postID) {
         try {
-            const currentPost = await typeorm_1.getMongoManager().findOne(likes_entity_1.LikeEntity, _postID);
-            const { likeList } = currentPost;
-            const res = typeorm_1.getMongoManager();
+            const likeList = await typeorm_1.getMongoManager().find(likes_entity_1.LikeEntity, {
+                postID
+            });
+            console.log(likeList);
+            return likeList;
+        }
+        catch (error) {
+            return [];
+        }
+    }
+    async likeOnePost(context, postID) {
+        try {
+            const { user } = context;
+            const newLike = new likes_entity_1.LikeEntity({
+                postID,
+                who: user._id
+            });
+            const savedResult = await typeorm_1.getMongoManager().save(likes_entity_1.LikeEntity, newLike);
             return true;
         }
         catch (error) {
+            console.log(error);
             return false;
         }
     }
 };
 __decorate([
+    graphql_1.Query(),
+    __param(0, graphql_1.Args('postID')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], LikesResolver.prototype, "getLikesByPostID", null);
+__decorate([
     graphql_1.Mutation(),
-    __param(0, graphql_1.Context()), __param(1, graphql_1.Args('_postID')),
+    __param(0, graphql_1.Context()), __param(1, graphql_1.Args('postID')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], LikesResolver.prototype, "likeOnePost", null);
 LikesResolver = __decorate([
     graphql_1.Resolver('Likes'),
-    common_1.UseGuards(common_1.UseGuards)
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard)
 ], LikesResolver);
 exports.LikesResolver = LikesResolver;
 //# sourceMappingURL=likes.resolver.js.map

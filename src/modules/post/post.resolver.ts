@@ -11,7 +11,6 @@ import { getMongoManager } from 'typeorm'
 import { PostEntity } from '../../entities/post.entity'
 import { Post } from '../../graphql.schema'
 import { ObjectID } from 'mongodb'
-import { LikesService } from '../likes/likes.service'
 import { CommentService } from '../comment/comment.service'
 
 @Resolver('Post')
@@ -19,7 +18,6 @@ import { CommentService } from '../comment/comment.service'
 export class PostResolver {
 
   constructor(
-    private readonly likesService: LikesService,
     private readonly commentService: CommentService
     ){}
 
@@ -43,14 +41,45 @@ export class PostResolver {
 
 
 //-----------------------------------------------------------------------------------MUTATIONS------------------------------------------------------------------------------------------------------------------------
-  @Mutation()
+
+@Mutation()
+async likeAPost(@Context() context, @Args('postID') postID):Promise<Boolean>{
+  try {
+
+    const {user} = context
+    const post = await getMongoManager().findOne(PostEntity, {_id: new ObjectID(postID)})
+    let {likes} = post
+
+    if(likes.indexOf(user._id) !== -1){
+      likes = [...likes.filter(v => v !== user._id)]
+    } else {
+      likes = [...likes, user._id]
+    }
+
+    const result = await getMongoManager().findOneAndUpdate(PostEntity, {
+      _id: new ObjectID(postID)
+    },
+    {
+      $set: {
+        likes: likes
+      }
+    })
+
+    return true
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
+
+@Mutation()
   async addPost(@Context() Context, @Args('post') post): Promise<Boolean> {
     try {
       const {user} = Context
-      const { content } = post
+      const { content, image } = post
       const newPost = new PostEntity({
         who: user._id,
-        image: 'chua co',
+        image,
         content,
         time: Date.now()
       })
@@ -65,14 +94,13 @@ export class PostResolver {
   async deletePost(@Context() Context, @Args('postID') id): Promise<Boolean>{
     try{
       const res = await Promise.all([
-        this.likesService.deleteLikesOnePost(id),
         this.commentService.deleteCommentOnePost(id),
          getMongoManager().findOneAndDelete(PostEntity, { 
           _id: new ObjectID(id)
         })
       ])
 
-      return (res[2].value) ?  true : false
+      return (res[1].value) ?  true : false
     } catch(err){
       console.log(err)
       return false
