@@ -31,7 +31,7 @@ export class FileController {
         throw new HttpException('Stop hacking this !', 400)
       } else {
         if (fileType && fileType.ext === 'png') {
-          return this.fileService.saveFile(file, type)
+          return this.fileService.uploadToDrive(file, type)
         }
 
         throw new HttpException('Unsupported Media Type ', 415)

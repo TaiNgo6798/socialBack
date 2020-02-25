@@ -40,7 +40,7 @@ let PostResolver = class PostResolver {
         try {
             const { user } = context;
             const post = await typeorm_1.getMongoManager().findOne(post_entity_1.PostEntity, { _id: new mongodb_1.ObjectID(postID) });
-            let { likes } = post;
+            let likes = post.likes || [];
             if (likes.indexOf(user._id) !== -1) {
                 likes = [...likes.filter(v => v !== user._id)];
             }

@@ -48,7 +48,7 @@ async likeAPost(@Context() context, @Args('postID') postID):Promise<Boolean>{
 
     const {user} = context
     const post = await getMongoManager().findOne(PostEntity, {_id: new ObjectID(postID)})
-    let {likes} = post
+    let likes = post.likes || []
 
     if(likes.indexOf(user._id) !== -1){
       likes = [...likes.filter(v => v !== user._id)]
