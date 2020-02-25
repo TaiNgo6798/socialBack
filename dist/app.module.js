@@ -13,6 +13,7 @@ const app_service_1 = require("./app.service");
 const graphql_1 = require("@nestjs/graphql");
 const user_module_1 = require("./modules/user/user.module");
 const path_1 = require("path");
+const jwt = require("jsonwebtoken");
 const post_module_1 = require("./modules/post/post.module");
 const comment_module_1 = require("./modules/comment/comment.module");
 const file_module_1 = require("./file/file.module");
@@ -33,7 +34,28 @@ AppModule = __decorate([
             }),
             graphql_1.GraphQLModule.forRoot({
                 typePaths: ['./**/*.graphql'],
-                context: ({ req }) => ({ req })
+                context: ({ req, connection }) => {
+                    if (connection) {
+                        return {
+                            req: connection.context
+                        };
+                    }
+                    return ({ req });
+                },
+                installSubscriptionHandlers: true,
+                subscriptions: {
+                    onConnect: (params, ws) => {
+                        try {
+                            const token = params['Authorization'].split(' ')[1];
+                            const decodedObj = jwt.verify(token, 'taingo6798');
+                            return decodedObj;
+                        }
+                        catch (err) {
+                            console.log(err);
+                            return false;
+                        }
+                    }
+                }
             }),
             user_module_1.UserModule,
             post_module_1.PostModule,

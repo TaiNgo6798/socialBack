@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
 const user_service_1 = require("../../modules/user/user.service");
+const jwt = require("jsonwebtoken");
 let GqlAuthGuard = class GqlAuthGuard {
     constructor(userService) {
         this.userService = userService;
@@ -20,20 +21,13 @@ let GqlAuthGuard = class GqlAuthGuard {
         try {
             const gqlCtx = graphql_1.GqlExecutionContext.create(context);
             const { authorization } = gqlCtx.getContext().req.headers;
-            const token = authorization.split(' ')[1];
-            const user = await this.userService.decodeToken(token);
-            if (user) {
-                gqlCtx.getContext().user = user;
-            }
-            else {
-                return false;
-            }
+            const decodedObj = jwt.verify(authorization.split(' ')[1], 'taingo6798');
+            gqlCtx.getContext().user = decodedObj;
+            return true;
         }
         catch (err) {
-            console.log(err);
             return false;
         }
-        return true;
     }
 };
 GqlAuthGuard = __decorate([

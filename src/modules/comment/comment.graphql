@@ -16,6 +16,10 @@ type Mutation {
   deleteOneComment(_id: String!): Boolean
 }
 
+type Subscription {
+  commentCreated(postID: String!): Comment
+}
+
 input CommentInput {
   postID: String!
   text: String!

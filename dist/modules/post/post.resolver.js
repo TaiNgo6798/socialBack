@@ -19,6 +19,8 @@ const typeorm_1 = require("typeorm");
 const post_entity_1 = require("../../entities/post.entity");
 const mongodb_1 = require("mongodb");
 const comment_service_1 = require("../comment/comment.service");
+const graphql_subscriptions_1 = require("graphql-subscriptions");
+const pubsub = new graphql_subscriptions_1.PubSub();
 let PostResolver = class PostResolver {
     constructor(commentService) {
         this.commentService = commentService;
@@ -54,6 +56,9 @@ let PostResolver = class PostResolver {
                     likes: likes
                 }
             });
+            pubsub.publish('likesChanged', {
+                likesChanged: result.value
+            });
             return true;
         }
         catch (error) {
@@ -69,6 +74,7 @@ let PostResolver = class PostResolver {
                 who: user._id,
                 image,
                 content,
+                likes: [],
                 time: Date.now()
             });
             const savedResult = await typeorm_1.getMongoManager().save(post_entity_1.PostEntity, newPost);
@@ -110,8 +116,12 @@ let PostResolver = class PostResolver {
             return false;
         }
     }
+    likesChanged() {
+        return pubsub.asyncIterator('likesChanged');
+    }
 };
 __decorate([
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Query(),
     __param(0, graphql_1.Context()),
     __metadata("design:type", Function),
@@ -119,6 +129,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "posts", null);
 __decorate([
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Query(),
     __param(0, graphql_1.Context()), __param(1, graphql_1.Args('_id')),
     __metadata("design:type", Function),
@@ -126,6 +137,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "getOnePost", null);
 __decorate([
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Mutation(),
     __param(0, graphql_1.Context()), __param(1, graphql_1.Args('postID')),
     __metadata("design:type", Function),
@@ -133,6 +145,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "likeAPost", null);
 __decorate([
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Mutation(),
     __param(0, graphql_1.Context()), __param(1, graphql_1.Args('post')),
     __metadata("design:type", Function),
@@ -140,6 +153,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "addPost", null);
 __decorate([
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Mutation(),
     __param(0, graphql_1.Context()), __param(1, graphql_1.Args('postID')),
     __metadata("design:type", Function),
@@ -147,15 +161,29 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "deletePost", null);
 __decorate([
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Mutation(),
     __param(0, graphql_1.Context()), __param(1, graphql_1.Args('post')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "updatePost", null);
+__decorate([
+    graphql_1.Subscription('likesChanged', {
+        filter: (payload, variables, context) => {
+            const { postID } = variables;
+            const { likesChanged } = payload;
+            if (likesChanged._id.toString() === postID)
+                return true;
+            return false;
+        }
+    }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PostResolver.prototype, "likesChanged", null);
 PostResolver = __decorate([
     graphql_1.Resolver('Post'),
-    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     __metadata("design:paramtypes", [comment_service_1.CommentService])
 ], PostResolver);
 exports.PostResolver = PostResolver;

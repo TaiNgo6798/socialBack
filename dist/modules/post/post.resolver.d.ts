@@ -9,4 +9,5 @@ export declare class PostResolver {
     addPost(Context: any, post: any): Promise<Boolean>;
     deletePost(Context: any, id: any): Promise<Boolean>;
     updatePost(Context: any, post: any): Promise<Boolean>;
+    likesChanged(): AsyncIterator<unknown, any, undefined>;
 }

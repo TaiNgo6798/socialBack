@@ -6,4 +6,5 @@ export declare class CommentResolver {
     getCommentsByPostID(postID: any): Promise<CommentOutput[]>;
     editOneComment(editInput: any): Promise<Boolean>;
     postOneComment(context: any, commentInput: any): Promise<Boolean>;
+    commentCreated(): AsyncIterator<unknown, any, undefined>;
 }

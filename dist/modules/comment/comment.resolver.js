@@ -19,6 +19,8 @@ const typeorm_1 = require("typeorm");
 const comments_entity_1 = require("../../entities/comments.entity");
 const user_resolver_1 = require("../user/user.resolver");
 const mongodb_1 = require("mongodb");
+const graphql_subscriptions_1 = require("graphql-subscriptions");
+const pubsub = new graphql_subscriptions_1.PubSub();
 let CommentResolver = class CommentResolver {
     constructor(userResolver) {
         this.userResolver = userResolver;
@@ -78,14 +80,21 @@ let CommentResolver = class CommentResolver {
                 time: Date.now()
             });
             const savedResult = await typeorm_1.getMongoManager().save(comments_entity_1.CommentEntity, newComment);
+            pubsub.publish('commentCreated', {
+                commentCreated: newComment
+            });
             return true;
         }
         catch (error) {
             return false;
         }
     }
+    commentCreated() {
+        return pubsub.asyncIterator('commentCreated');
+    }
 };
 __decorate([
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Query(),
     __param(0, graphql_1.Args('postID')),
     __metadata("design:type", Function),
@@ -93,6 +102,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CommentResolver.prototype, "getCommentsByPostID", null);
 __decorate([
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Mutation(),
     __param(0, graphql_1.Args('editInput')),
     __metadata("design:type", Function),
@@ -100,15 +110,29 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CommentResolver.prototype, "editOneComment", null);
 __decorate([
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Mutation(),
     __param(0, graphql_1.Context()), __param(1, graphql_1.Args('commentInput')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], CommentResolver.prototype, "postOneComment", null);
+__decorate([
+    graphql_1.Subscription('commentCreated', {
+        filter: (payload, variables, context) => {
+            const { postID } = variables;
+            const { commentCreated } = payload;
+            if (commentCreated.postID === postID)
+                return true;
+            return false;
+        }
+    }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CommentResolver.prototype, "commentCreated", null);
 CommentResolver = __decorate([
     graphql_1.Resolver('Comment'),
-    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     __metadata("design:paramtypes", [user_resolver_1.UserResolver])
 ], CommentResolver);
 exports.CommentResolver = CommentResolver;

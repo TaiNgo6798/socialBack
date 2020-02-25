@@ -5,9 +5,11 @@ import { AppService } from './app.service'
 import { GraphQLModule } from '@nestjs/graphql'
 import { UserModule } from './modules/user/user.module'
 import { join } from 'path'
+import * as jwt from 'jsonwebtoken'
 import { PostModule } from './modules/post/post.module'
 import { CommentModule } from './modules/comment/comment.module'
 import { FileModule } from './file/file.module'
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -22,8 +24,30 @@ import { FileModule } from './file/file.module'
     }),
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
-      context: ({ req }) => ({ req })
-    }), 
+      context: ({ req, connection }) => {
+        if (connection) {
+          return {
+            req: connection.context // tra data ve cho filter trong subscription
+          }
+        }
+        return ({ req })
+      },
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        onConnect: (params, ws) => {
+          try {
+            const token = params['Authorization'].split(' ')[1]
+            const decodedObj = jwt.verify(token, 'taingo6798')
+
+            // return data den context trong filter o resolver
+            return decodedObj
+          } catch(err) {
+            console.log(err)
+            return false
+          }
+        }
+      }
+    }),
     UserModule, 
     PostModule,
     CommentModule,

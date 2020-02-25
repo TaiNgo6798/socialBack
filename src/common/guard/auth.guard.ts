@@ -1,7 +1,7 @@
 import { Injectable, ExecutionContext, CanActivate } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { UserService } from '../../modules/user/user.service'
-
+import * as jwt from 'jsonwebtoken'
 @Injectable()
 export class GqlAuthGuard implements CanActivate {
   constructor(private readonly userService: UserService) { }
@@ -12,19 +12,13 @@ export class GqlAuthGuard implements CanActivate {
     try {
       const gqlCtx = GqlExecutionContext.create(context)
       const { authorization } = gqlCtx.getContext().req.headers
+      const decodedObj = jwt.verify(authorization.split(' ')[1], 'taingo6798')
 
-      const token = authorization.split(' ')[1]
-      const user =   await this.userService.decodeToken(token)
-      if (user) {
-        gqlCtx.getContext().user = user
-      } else {
-        return false
-      }
+      gqlCtx.getContext().user = decodedObj
 
+      return true
     } catch (err) {
-      console.log(err)
       return false
     }
-    return true
   }
 }

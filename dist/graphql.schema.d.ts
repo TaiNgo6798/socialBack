@@ -71,6 +71,10 @@ export interface IQuery {
     users(): User[] | Promise<User[]>;
     getUserByID(_id?: string): UserInfo | Promise<UserInfo>;
 }
+export interface ISubscription {
+    commentCreated(postID: string): Comment | Promise<Comment>;
+    likesChanged(postID: string): Post | Promise<Post>;
+}
 export interface User {
     _id?: string;
     email?: string;

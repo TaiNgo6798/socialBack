@@ -22,6 +22,11 @@ type Mutation {
   likeAPost(postID: String!): Boolean
 }
 
+type Subscription {
+  likesChanged(postID: String!): Post
+}
+
+
 input PostEditInput {
     _id: ID!
   content: String,

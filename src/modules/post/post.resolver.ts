@@ -4,6 +4,7 @@ import {
   Context,
   Mutation,
   Args,
+  Subscription,
 } from '@nestjs/graphql'
 import { UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from '../../common/guard/auth.guard'
@@ -12,9 +13,12 @@ import { PostEntity } from '../../entities/post.entity'
 import { Post } from '../../graphql.schema'
 import { ObjectID } from 'mongodb'
 import { CommentService } from '../comment/comment.service'
+import { PubSub } from 'graphql-subscriptions'
+
+const pubsub = new PubSub()
 
 @Resolver('Post')
-@UseGuards(GqlAuthGuard)
+
 export class PostResolver {
 
   constructor(
@@ -22,13 +26,14 @@ export class PostResolver {
     ){}
 
   //-----------------------------------------------------------------------------------QUERIES------------------------------------------------------------------------------------------------------------------------
-
+  @UseGuards(GqlAuthGuard)
   @Query()
   async posts(@Context() context): Promise<Post[]>{
     const postList = await getMongoManager().find(PostEntity, {})
     return postList
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query()
   async getOnePost(@Context() Context, @Args('_id') _id): Promise<Post> {
     try {
@@ -42,6 +47,7 @@ export class PostResolver {
 
 //-----------------------------------------------------------------------------------MUTATIONS------------------------------------------------------------------------------------------------------------------------
 
+@UseGuards(GqlAuthGuard)
 @Mutation()
 async likeAPost(@Context() context, @Args('postID') postID):Promise<Boolean>{
   try {
@@ -64,7 +70,10 @@ async likeAPost(@Context() context, @Args('postID') postID):Promise<Boolean>{
         likes: likes
       }
     })
-
+      //tra ve cho subscription
+      pubsub.publish('likesChanged', {
+        likesChanged: result.value
+      })
     return true
   } catch (error) {
     console.log(error)
@@ -72,6 +81,7 @@ async likeAPost(@Context() context, @Args('postID') postID):Promise<Boolean>{
   }
 }
 
+@UseGuards(GqlAuthGuard)
 @Mutation()
   async addPost(@Context() Context, @Args('post') post): Promise<Boolean> {
     try {
@@ -81,6 +91,7 @@ async likeAPost(@Context() context, @Args('postID') postID):Promise<Boolean>{
         who: user._id,
         image,
         content,
+        likes: [],
         time: Date.now()
       })
       const savedResult = await getMongoManager().save(PostEntity, newPost)
@@ -90,6 +101,7 @@ async likeAPost(@Context() context, @Args('postID') postID):Promise<Boolean>{
     }
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation()
   async deletePost(@Context() Context, @Args('postID') id): Promise<Boolean>{
     try{
@@ -107,6 +119,7 @@ async likeAPost(@Context() context, @Args('postID') postID):Promise<Boolean>{
     }
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation()
   async updatePost(@Context() Context, @Args('post') post): Promise<Boolean>{
     try {
@@ -124,5 +137,23 @@ async likeAPost(@Context() context, @Args('postID') postID):Promise<Boolean>{
     } catch (error) {
       return false
     }
+  }
+  //----------------------------------------------------------SUBSCRIPTIONS-------------------------------------------------------------------------
+
+
+  @Subscription('likesChanged', {
+    filter: (payload, variables, context) => {
+      // payload: du lieu tra ve cho subscription
+      // variables: cac bien truyen vao tu Graphql Subscription (post.graphql)
+      // context truyen tu ham onConnect ben module
+      const { postID } = variables
+      const { likesChanged } = payload
+      if(likesChanged._id.toString() === postID)
+      return true
+      return false
+    }
+  })
+  likesChanged() {
+    return pubsub.asyncIterator('likesChanged')
   }
 }
