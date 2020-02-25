@@ -39,13 +39,15 @@ let UserResolver = class UserResolver {
         });
         try {
             if (bcrypt.compareSync(password, user.password)) {
-                const { _id, firstName, lastName, avatar } = user;
+                const { _id, firstName, lastName, avatar, dob, gender } = user;
                 const token = jwt.sign({
                     _id,
                     email,
                     firstName,
                     lastName,
-                    avatar
+                    avatar,
+                    dob,
+                    gender
                 }, 'taingo6798');
                 return {
                     status: 2,
@@ -68,13 +70,15 @@ let UserResolver = class UserResolver {
     }
     async createUser(user) {
         try {
-            const { email, password, firstName, lastName, avatar } = user;
+            const { email, password, firstName, lastName, avatar, gender } = user;
             const newUser = new user_entity_1.UserEntity({
                 email,
                 password: bcrypt.hashSync(password, saltRounds),
                 firstName,
                 lastName,
-                avatar
+                avatar,
+                dob: 0,
+                gender
             });
             const duplicateUser = await typeorm_1.getMongoManager().findOne(user_entity_1.UserEntity, {
                 email

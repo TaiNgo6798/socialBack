@@ -10,9 +10,9 @@ type Post {
 
 
 type Query {
-  posts: [Post]
-  getOnePost(_id: String!): Post
-  getPostsByUserID(userID: String!): [Post]
+  posts: [PostOutput]
+  getOnePost(_id: String!): PostOutput
+  getPostsByUserID(userID: String!): [PostOutput]
 }
 
 type Mutation {
@@ -36,5 +36,14 @@ input PostEditInput {
 input PostInput {
   content: String!,
   image: String!
+}
+
+type PostOutput {
+    _id: ID
+  who: UserInfo
+  image: String
+  content: String
+  likes: [String]
+  time: Float
 }
 

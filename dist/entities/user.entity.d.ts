@@ -5,5 +5,7 @@ export declare class UserEntity {
     firstName: string;
     lastName: string;
     avatar: string;
+    dob: number;
+    gender: string;
     constructor(args: Partial<UserEntity>);
 }

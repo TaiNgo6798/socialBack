@@ -5,6 +5,8 @@ type User {
   firstName: String
   lastName: String
   avatar: String
+  dob: Float
+  gender: String
 }
 
 type Query {
@@ -23,6 +25,8 @@ type UserInfo {
   firstName: String
   lastName: String
   avatar: String
+  dob: Float
+  gender: String
 }
 
 input UserInput {
@@ -30,6 +34,7 @@ input UserInput {
   password: String!
   firstName: String!
   lastName: String!
+  gender: String!
 }
 
 type LoginRes {

@@ -20,6 +20,7 @@ export interface UserInput {
     password: string;
     firstName: string;
     lastName: string;
+    gender: string;
 }
 export interface UserLoginInput {
     email?: string;
@@ -63,11 +64,19 @@ export interface Post {
     likes?: string[];
     time?: number;
 }
+export interface PostOutput {
+    _id?: string;
+    who?: UserInfo;
+    image?: string;
+    content?: string;
+    likes?: string[];
+    time?: number;
+}
 export interface IQuery {
     getCommentsByPostID(postID: string): CommentOutput[] | Promise<CommentOutput[]>;
-    posts(): Post[] | Promise<Post[]>;
-    getOnePost(_id: string): Post | Promise<Post>;
-    getPostsByUserID(userID: string): Post[] | Promise<Post[]>;
+    posts(): PostOutput[] | Promise<PostOutput[]>;
+    getOnePost(_id: string): PostOutput | Promise<PostOutput>;
+    getPostsByUserID(userID: string): PostOutput[] | Promise<PostOutput[]>;
     users(): User[] | Promise<User[]>;
     getUserByID(_id?: string): UserInfo | Promise<UserInfo>;
 }
@@ -82,6 +91,8 @@ export interface User {
     firstName?: string;
     lastName?: string;
     avatar?: string;
+    dob?: number;
+    gender?: string;
 }
 export interface UserInfo {
     _id?: string;
@@ -89,4 +100,6 @@ export interface UserInfo {
     firstName?: string;
     lastName?: string;
     avatar?: string;
+    dob?: number;
+    gender?: string;
 }

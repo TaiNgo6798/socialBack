@@ -17,6 +17,10 @@ export class UserEntity {
   lastName: string
   @Column()
   avatar: string
+  @Column()
+  dob: number
+  @Column()
+  gender: string
 
   constructor(args: Partial<UserEntity>) {
     Object.assign(this, args)

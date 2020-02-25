@@ -3510,15 +3510,15 @@
         "signature": "b53ae94753830ceb14479d0536bb1627a7de91b4d2f252f5cb773eb0367bc79a"
       },
       "../src/entities/user.entity.ts": {
-        "version": "25f4c3624ca73c5dd63e4f7cb278cac0b5d14082c47d56fc531cac8b3b3dee43",
-        "signature": "751848394471ddee6951db3ba8b3e97ed1f701251124b466d4c1623613132767"
+        "version": "f9d02a40b549a08d58672ea22a99da66d3ae8e4496b8dc0cddee75efe785173c",
+        "signature": "6e437459c1ffe3e8dec437a4651f230eb99ddc6fa289e04bb37b51b898e61148"
       },
       "../src/graphql.schema.ts": {
-        "version": "05f80309908e7c80177d522335869ac0762f834e18ce7ab436db69f6c0a6b2ba",
-        "signature": "3417b3d1094044bec80c12dd12c30fe571dd1e1516af652486e1f03a77341fce"
+        "version": "cfc81c6cc7a649b482ea16619e29d7d051e260add443fb96a2dbfdae06e0d214",
+        "signature": "8a2edf3ad895c0209f24099f99795bd3c68286d9c4249599e75d225e8a28ef49"
       },
       "../src/modules/user/user.resolver.ts": {
-        "version": "c8a8376ad1d9194adcf6b9db24f7ea2d19308d0bde475ee722305c0eae9e2958",
+        "version": "386034c5c4f8ed06e203566bac0c985c44300bc008983770826fd7f98a117bdd",
         "signature": "0519820237a308a994f49b20fa43565bc8ba4f8f0f77ed0b7e7d89fc3f91727e"
       },
       "../src/modules/user/user.module.ts": {
@@ -3558,11 +3558,11 @@
         "signature": "bbf290c3ac5379006edacffacd15be4e288cd6d720625d3bc51b3f937b808d79"
       },
       "../src/modules/post/post.resolver.ts": {
-        "version": "039a658fc1c9238494b143890bc7b0c420049cb5633bea18c17b5b0037342d88",
-        "signature": "d02f37b747b023df96e7b2ee4322a941c2347d6a46c7258b977f2df61a1b5f82"
+        "version": "5395cd0ad4d866c80774a495fb102fc4126454a058f4a0f28ea4c9b61c92fbfb",
+        "signature": "742a848fc4290f3f93ac4cc44300ee61566aa44731c761519af91265589a7239"
       },
       "../src/modules/comment/comment.resolver.ts": {
-        "version": "46e1af188e1b395bb5205361659b8487d7e3a5cd7cfb0d16aee32755a4140572",
+        "version": "cd345db12187d86924b13375086ffbcadf181de793b49c4c092b54f377023e7d",
         "signature": "c266b1ea728f7af7ab938c271aac4d5a07636c40032eac686971312f376b4687"
       },
       "../src/modules/comment/comment.module.ts": {

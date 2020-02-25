@@ -10,7 +10,7 @@ import { UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from '../../common/guard/auth.guard'
 import { getMongoManager } from 'typeorm'
 import { PostEntity } from '../../entities/post.entity'
-import { Post } from '../../graphql.schema'
+import { PostOutput } from '../../graphql.schema'
 import { ObjectID } from 'mongodb'
 import { CommentService } from '../comment/comment.service'
 import { PubSub } from 'graphql-subscriptions'
@@ -28,14 +28,15 @@ export class PostResolver {
   //-----------------------------------------------------------------------------------QUERIES------------------------------------------------------------------------------------------------------------------------
   @UseGuards(GqlAuthGuard)
   @Query()
-  async posts(@Context() context): Promise<Post[]>{
+  async posts(@Context() context): Promise<PostOutput[]>{
     const postList = await getMongoManager().find(PostEntity, {})
+
     return postList
   }
 
   @UseGuards(GqlAuthGuard)
   @Query()
-  async getOnePost(@Context() Context, @Args('_id') _id): Promise<Post> {
+  async getOnePost(@Context() Context, @Args('_id') _id): Promise<PostOutput> {
     try {
       const savedResult = await getMongoManager().findOne(PostEntity, _id)
       return savedResult

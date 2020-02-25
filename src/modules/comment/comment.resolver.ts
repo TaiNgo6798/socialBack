@@ -21,6 +21,7 @@ export class CommentResolver {
   @Query()
   async getCommentsByPostID(@Args('postID') postID): Promise<CommentOutput[]> {
     try {
+      console.time()
       const comments = await getMongoManager().find(CommentEntity, {
         postID
       })
@@ -28,9 +29,8 @@ export class CommentResolver {
         comments.map(v => {
           return this.userResolver.getUserByID(v.who)
         }))
-
-      let result = []
-      userList.map((v, k) => {
+        console.timeEnd()
+      return userList.map((v, k) => {
         const { _id, postID, text, time } = comments[k]
         let comment = {
           _id,
@@ -39,10 +39,9 @@ export class CommentResolver {
           text,
           time
         }
-        result.unshift(comment)
+        return comment
       })
 
-      return result
     } catch (error) {
       console.log(error)
       return null

@@ -27,14 +27,15 @@ let CommentResolver = class CommentResolver {
     }
     async getCommentsByPostID(postID) {
         try {
+            console.time();
             const comments = await typeorm_1.getMongoManager().find(comments_entity_1.CommentEntity, {
                 postID
             });
             const userList = await Promise.all(comments.map(v => {
                 return this.userResolver.getUserByID(v.who);
             }));
-            let result = [];
-            userList.map((v, k) => {
+            console.timeEnd();
+            return userList.map((v, k) => {
                 const { _id, postID, text, time } = comments[k];
                 let comment = {
                     _id,
@@ -43,9 +44,8 @@ let CommentResolver = class CommentResolver {
                     text,
                     time
                 };
-                result.unshift(comment);
+                return comment;
             });
-            return result;
         }
         catch (error) {
             console.log(error);
