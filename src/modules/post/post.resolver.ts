@@ -14,6 +14,7 @@ import { PostOutput } from '../../graphql.schema'
 import { ObjectID } from 'mongodb'
 import { CommentService } from '../comment/comment.service'
 import { PubSub } from 'graphql-subscriptions'
+import { UserResolver } from '../user/user.resolver'
 
 const pubsub = new PubSub()
 
@@ -22,7 +23,8 @@ const pubsub = new PubSub()
 export class PostResolver {
 
   constructor(
-    private readonly commentService: CommentService
+    private readonly commentService: CommentService,
+    private readonly userResolver: UserResolver
     ){}
 
   //-----------------------------------------------------------------------------------QUERIES------------------------------------------------------------------------------------------------------------------------
@@ -31,16 +33,28 @@ export class PostResolver {
   async posts(@Context() context): Promise<PostOutput[]>{
     const postList = await getMongoManager().find(PostEntity, {})
 
-    return postList
+    const userList = await Promise.all(postList.map( v => {
+     return  this.userResolver.getUserByID(v.who)
+    }))
+
+    return postList.map((v, k) => {
+      v.who = userList[k]
+      return v
+    })
+    
   }
 
   @UseGuards(GqlAuthGuard)
   @Query()
   async getOnePost(@Context() Context, @Args('_id') _id): Promise<PostOutput> {
     try {
-      const savedResult = await getMongoManager().findOne(PostEntity, _id)
+      const savedResult = await getMongoManager().findOne(PostEntity, {
+        _id: new ObjectID(_id)
+      })
+      savedResult.who = await this.userResolver.getUserByID(savedResult.who)
       return savedResult
     } catch (error) {
+      console.log(error)
       return null
     }
   }

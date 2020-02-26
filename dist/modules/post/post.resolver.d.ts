@@ -1,8 +1,10 @@
 import { PostOutput } from '../../graphql.schema';
 import { CommentService } from '../comment/comment.service';
+import { UserResolver } from '../user/user.resolver';
 export declare class PostResolver {
     private readonly commentService;
-    constructor(commentService: CommentService);
+    private readonly userResolver;
+    constructor(commentService: CommentService, userResolver: UserResolver);
     posts(context: any): Promise<PostOutput[]>;
     getOnePost(Context: any, _id: any): Promise<PostOutput>;
     likeAPost(context: any, postID: any): Promise<Boolean>;

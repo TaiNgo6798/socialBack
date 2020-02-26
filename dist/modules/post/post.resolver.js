@@ -20,21 +20,33 @@ const post_entity_1 = require("../../entities/post.entity");
 const mongodb_1 = require("mongodb");
 const comment_service_1 = require("../comment/comment.service");
 const graphql_subscriptions_1 = require("graphql-subscriptions");
+const user_resolver_1 = require("../user/user.resolver");
 const pubsub = new graphql_subscriptions_1.PubSub();
 let PostResolver = class PostResolver {
-    constructor(commentService) {
+    constructor(commentService, userResolver) {
         this.commentService = commentService;
+        this.userResolver = userResolver;
     }
     async posts(context) {
         const postList = await typeorm_1.getMongoManager().find(post_entity_1.PostEntity, {});
-        return postList;
+        const userList = await Promise.all(postList.map(v => {
+            return this.userResolver.getUserByID(v.who);
+        }));
+        return postList.map((v, k) => {
+            v.who = userList[k];
+            return v;
+        });
     }
     async getOnePost(Context, _id) {
         try {
-            const savedResult = await typeorm_1.getMongoManager().findOne(post_entity_1.PostEntity, _id);
+            const savedResult = await typeorm_1.getMongoManager().findOne(post_entity_1.PostEntity, {
+                _id: new mongodb_1.ObjectID(_id)
+            });
+            savedResult.who = await this.userResolver.getUserByID(savedResult.who);
             return savedResult;
         }
         catch (error) {
+            console.log(error);
             return null;
         }
     }
@@ -184,7 +196,8 @@ __decorate([
 ], PostResolver.prototype, "likesChanged", null);
 PostResolver = __decorate([
     graphql_1.Resolver('Post'),
-    __metadata("design:paramtypes", [comment_service_1.CommentService])
+    __metadata("design:paramtypes", [comment_service_1.CommentService,
+        user_resolver_1.UserResolver])
 ], PostResolver);
 exports.PostResolver = PostResolver;
 //# sourceMappingURL=post.resolver.js.map

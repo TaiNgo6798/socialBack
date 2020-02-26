@@ -3558,8 +3558,8 @@
         "signature": "bbf290c3ac5379006edacffacd15be4e288cd6d720625d3bc51b3f937b808d79"
       },
       "../src/modules/post/post.resolver.ts": {
-        "version": "5395cd0ad4d866c80774a495fb102fc4126454a058f4a0f28ea4c9b61c92fbfb",
-        "signature": "742a848fc4290f3f93ac4cc44300ee61566aa44731c761519af91265589a7239"
+        "version": "a97e0a2256d22d89a25353fbd6ee605a4f824952f632dcd39d26480903045aec",
+        "signature": "02f3351babdf759d5ebe2c6639d0eb566f0571a5f65c89fc6e4e004c3f791218"
       },
       "../src/modules/comment/comment.resolver.ts": {
         "version": "cd345db12187d86924b13375086ffbcadf181de793b49c4c092b54f377023e7d",
@@ -13632,6 +13632,7 @@
         "../src/graphql.schema.ts",
         "../src/modules/comment/comment.service.ts",
         "../node_modules/graphql-subscriptions/dist/index.d.ts",
+        "../src/modules/user/user.resolver.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -27015,6 +27016,7 @@
       ],
       "../src/modules/post/post.resolver.ts": [
         "../src/modules/comment/comment.service.ts",
+        "../src/modules/user/user.resolver.ts",
         "../src/graphql.schema.ts"
       ],
       "../src/modules/comment/comment.resolver.ts": [
@@ -33699,7 +33701,7 @@
       "../node_modules/graphql-subscriptions/dist/pubsub.d.ts",
       "../node_modules/graphql-subscriptions/dist/with-filter.d.ts",
       "../node_modules/graphql-subscriptions/dist/index.d.ts",
-      "../src/modules/post/post.resolver.ts",
+      "../src/modules/comment/comment.resolver.ts",
       "../src/modules/comment/comment.module.ts",
       "../node_modules/@nestjs/platform-express/interfaces/serve-static-options.interface.d.ts",
       "../node_modules/@nestjs/platform-express/adapters/express-adapter.d.ts",
@@ -34319,7 +34321,7 @@
       "../node_modules/@types/webpack/index.d.ts",
       "../node_modules/@types/yargs-parser/index.d.ts",
       "../node_modules/@types/yargs/index.d.ts",
-      "../src/modules/comment/comment.resolver.ts"
+      "../src/modules/post/post.resolver.ts"
     ]
   },
   "version": "3.7.4"
