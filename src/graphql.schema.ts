@@ -17,7 +17,6 @@ export interface EditInput {
 
 export interface LikeInput {
     postID: string;
-    idWho: string;
 }
 
 export interface PostEditInput {

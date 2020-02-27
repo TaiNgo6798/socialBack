@@ -11,7 +11,7 @@ export declare class PostResolver {
     constructor(commentService: CommentService, userResolver: UserResolver, likeResolver: LikeResolver, likeService: LikeService);
     posts(context: any, skip: any): Promise<Post[]>;
     getUserByID(p: any): Promise<import("../../entities/user.entity").UserEntity>;
-    getLikes(post: any): Promise<import("../../graphql.schema").Like>;
+    getLikes(post: any): Promise<import("../../graphql.schema").Like[]>;
     getOnePost(Context: any, _id: any): Promise<Post>;
     addPost(Context: any, post: any): Promise<Boolean>;
     deletePost(Context: any, id: any): Promise<Boolean>;

@@ -14,13 +14,8 @@ export class LikeResolver {
   ){}
 
   @Query()
-  async getLikesByPostID(@Args('postID') postID): Promise<Like>{
-
-      const res = await getMongoManager().findOne(LikeEntity, {
-        postID
-      })
-      console.log(postID)  
-      console.log(res)  
+  async getLikesByPostID(@Args('postID') postID): Promise<Like[]>{
+      const res = await getMongoManager().find(LikeEntity, postID.toString())
       return res
   }
 

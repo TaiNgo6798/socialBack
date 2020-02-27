@@ -3514,8 +3514,8 @@
         "signature": "6e437459c1ffe3e8dec437a4651f230eb99ddc6fa289e04bb37b51b898e61148"
       },
       "../src/graphql.schema.ts": {
-        "version": "d7bfce8d2698e6d80ada96cef3f20c611ef2a98f95948583b247564f9f7632bc",
-        "signature": "c9e3db7713c30ff2b7fcffa4c366fe3e691d9a53171f9bd4086ab309048d950f"
+        "version": "4e69cc9518fb47c060f68e5672bf1f2d74fbbdf09e4075ceec5cd2933546f8e2",
+        "signature": "9c8e71593573133badb5def07a8b9116f0297b5c49a3e364d1a33ba4a077da92"
       },
       "../src/entities/post.entity.ts": {
         "version": "cc899974e5b89b8c471b6560398fd43c06ac5165fd75575173ce67410608b9fa",
@@ -3546,8 +3546,8 @@
         "signature": "34bc471ac3a6d865bc76a067963ee7a71ff46fad8a7f65ac3ee06f84b29b9444"
       },
       "../src/modules/like/like.resolver.ts": {
-        "version": "99f6c03099bec46a2934cbecc34fe9a0bde31c6de69180ce6e13428a4e29d22b",
-        "signature": "cffd27ab1ca87136201e9511e65db065930f5a6df8c1ea19c3bb5f38978cf0ff"
+        "version": "14d9c8dbd601642273ff16753a672eb22a4fa585d7fe1ae764d36dc523a63f24",
+        "signature": "89ae6493168568804544930132e1134ba093d0d41dd2ac4c160428ee02a09126"
       },
       "../src/modules/like/like.service.ts": {
         "version": "08deaa600ae02afe263bb6ab14749e5f1ef2e89eeef3d0a27e4058b1609f311e",
@@ -3555,7 +3555,7 @@
       },
       "../src/modules/post/post.resolver.ts": {
         "version": "24205dfdd776776134bab82e4dc3b975cde594d1342c2f1e9e84d47a09736bf9",
-        "signature": "7d864a7dd9dea2a2240afb2642529325ee02d15483b4c1c4ae5a813994723627"
+        "signature": "a6e907fd754e183a751164ddc6a2148dfb0dbc6242c2f556ae1615f3800dc7d9"
       },
       "../node_modules/graphql-subscriptions/dist/pubsub-engine.d.ts": {
         "version": "4c9aded23c1eb21c4d7a4b03edb29e0611ee88975520a4aa8514186bb22cf20c",
@@ -33774,6 +33774,7 @@
       "../src/modules/comment/comment.service.ts",
       "../src/entities/likes.entity.ts",
       "../src/modules/like/like.service.ts",
+      "../src/modules/post/post.resolver.ts",
       "../node_modules/graphql-subscriptions/dist/pubsub-engine.d.ts",
       "../node_modules/graphql-subscriptions/dist/pubsub.d.ts",
       "../node_modules/graphql-subscriptions/dist/with-filter.d.ts",
@@ -34269,6 +34270,9 @@
       "../node_modules/file-type/index.d.ts",
       "../src/file/file.controller.ts",
       "../src/file/file.module.ts",
+      "../src/modules/like/like.module.ts",
+      "../src/modules/post/post.module.ts",
+      "../src/app.module.ts",
       "../src/generate.typings.ts",
       "../src/main.ts",
       "../node_modules/@types/anymatch/index.d.ts",
@@ -34396,11 +34400,7 @@
       "../node_modules/@types/webpack/index.d.ts",
       "../node_modules/@types/yargs-parser/index.d.ts",
       "../node_modules/@types/yargs/index.d.ts",
-      "../src/modules/like/like.resolver.ts",
-      "../src/modules/like/like.module.ts",
-      "../src/modules/post/post.resolver.ts",
-      "../src/modules/post/post.module.ts",
-      "../src/app.module.ts"
+      "../src/modules/like/like.resolver.ts"
     ]
   },
   "version": "3.7.4"
