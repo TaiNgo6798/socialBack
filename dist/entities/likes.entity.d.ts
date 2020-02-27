@@ -1,5 +1,8 @@
+import { UserEntity } from './user.entity';
 export declare class LikeEntity {
-    _idPost: string;
-    likeList: any;
+    _id: string;
+    who: UserEntity;
+    postID: string;
+    idWho: string;
     constructor(args: Partial<LikeEntity>);
 }

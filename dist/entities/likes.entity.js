@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
+const user_entity_1 = require("./user.entity");
 let LikeEntity = class LikeEntity {
     constructor(args) {
         Object.assign(this, args);
@@ -18,11 +19,19 @@ let LikeEntity = class LikeEntity {
 __decorate([
     typeorm_1.ObjectIdColumn(),
     __metadata("design:type", String)
-], LikeEntity.prototype, "_idPost", void 0);
+], LikeEntity.prototype, "_id", void 0);
 __decorate([
     typeorm_1.Column(),
-    __metadata("design:type", Object)
-], LikeEntity.prototype, "likeList", void 0);
+    __metadata("design:type", user_entity_1.UserEntity)
+], LikeEntity.prototype, "who", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], LikeEntity.prototype, "postID", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], LikeEntity.prototype, "idWho", void 0);
 LikeEntity = __decorate([
     typeorm_1.Entity({
         name: 'likes'

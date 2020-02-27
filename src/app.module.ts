@@ -18,7 +18,7 @@ import { FileModule } from './file/file.module'
       database: 'social_app',
       url: `mongodb+srv://taingo:taingo6798@cluster0-tjufa.mongodb.net/test?retryWrites=true&w=majority`,
       entities: [join(__dirname, '**/**.entity{.ts,.js}')],
-      synchronize: true,
+      synchronize: false,
       useNewUrlParser: true,
       useUnifiedTopology: true
     }),

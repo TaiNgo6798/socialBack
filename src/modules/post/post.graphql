@@ -1,29 +1,25 @@
 
 type Post {
   _id: ID
-  who: String
+  idWho: String
+  who: User
   image: String
   content: String
-  likes: [String]
+  likes: [Like]
   time: Float
 }
 
 
 type Query {
-  posts: [PostOutput]
-  getOnePost(_id: String!): PostOutput
-  getPostsByUserID(userID: String!): [PostOutput]
+  posts(skip: Float!): [Post]
+  getOnePost(_id: String!): Post
+  getPostsByUserID(userID: String!): [Post]
 }
 
 type Mutation {
   addPost(post: PostInput!): Boolean
   deletePost(postID: String!): Boolean
   updatePost( post: PostEditInput! ): Boolean
-  likeAPost(postID: String!): Boolean
-}
-
-type Subscription {
-  likesChanged(postID: String!): Post
 }
 
 
@@ -38,12 +34,4 @@ input PostInput {
   image: String!
 }
 
-type PostOutput {
-    _id: ID
-  who: UserInfo
-  image: String
-  content: String
-  likes: [String]
-  time: Float
-}
 

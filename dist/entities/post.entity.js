@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
+const user_entity_1 = require("./user.entity");
 let PostEntity = class PostEntity {
     constructor(args) {
         Object.assign(this, args);
@@ -21,7 +22,11 @@ __decorate([
 ], PostEntity.prototype, "_id", void 0);
 __decorate([
     typeorm_1.Column(),
-    __metadata("design:type", Object)
+    __metadata("design:type", String)
+], PostEntity.prototype, "idWho", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", user_entity_1.UserEntity)
 ], PostEntity.prototype, "who", void 0);
 __decorate([
     typeorm_1.Column(),

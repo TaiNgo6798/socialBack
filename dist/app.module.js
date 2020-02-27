@@ -28,7 +28,7 @@ AppModule = __decorate([
                 database: 'social_app',
                 url: `mongodb+srv://taingo:taingo6798@cluster0-tjufa.mongodb.net/test?retryWrites=true&w=majority`,
                 entities: [path_1.join(__dirname, '**/**.entity{.ts,.js}')],
-                synchronize: true,
+                synchronize: false,
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             }),

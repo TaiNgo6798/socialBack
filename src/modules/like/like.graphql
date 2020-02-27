@@ -1,0 +1,18 @@
+type Like {
+  _id: String
+  who: User
+  postID: String
+  idWho: String
+}
+
+type Query {
+  getLikesByPostID(postID: String!): [Like]
+}
+
+type Mutation {
+  doLike(likeInput: LikeInput!): Boolean
+}
+
+input LikeInput {
+  postID: String!
+}

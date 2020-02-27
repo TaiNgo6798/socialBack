@@ -1,0 +1,21 @@
+import { Entity, Column, ObjectIdColumn } from 'typeorm'
+import { UserEntity } from './user.entity'
+
+@Entity({
+  name: 'likes'
+})
+export class LikeEntity {
+  @ObjectIdColumn()
+  _id: string
+
+  @Column()
+  who: UserEntity
+  @Column()
+  postID: string
+  @Column()
+  idWho: string
+  
+  constructor(args: Partial<LikeEntity>) {
+    Object.assign(this, args)
+  }
+}

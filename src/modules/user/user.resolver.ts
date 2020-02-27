@@ -1,9 +1,10 @@
-import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
+import { Resolver, Mutation, Args, Query, Context, ResolveProperty, Parent } from '@nestjs/graphql'
 import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt'
 import { getMongoManager } from 'typeorm'
 import { UserEntity } from 'src/entities/user.entity'
 import { User, UserInfo } from 'src/graphql.schema'
+import { PostEntity } from 'src/entities/post.entity'
 
 
 
@@ -11,6 +12,7 @@ const saltRounds = 10
 
 @Resolver('User')
 export class UserResolver {
+
 
   //-----------------------------------------------------------------------------------QUERIES------------------------------------------------------------------------------------------------------------------------
   
@@ -20,7 +22,7 @@ export class UserResolver {
   }
 
   @Query()
-  async getUserByID(@Args('_id') _id): Promise<UserInfo> {
+  async getUserByID(@Args('_id') _id): Promise<UserEntity> {
     try {
       const res = await getMongoManager().findOne(UserEntity, _id)
       return res

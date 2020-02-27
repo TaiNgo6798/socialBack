@@ -19,30 +19,41 @@ const typeorm_1 = require("typeorm");
 const post_entity_1 = require("../../entities/post.entity");
 const mongodb_1 = require("mongodb");
 const comment_service_1 = require("../comment/comment.service");
-const graphql_subscriptions_1 = require("graphql-subscriptions");
 const user_resolver_1 = require("../user/user.resolver");
-const pubsub = new graphql_subscriptions_1.PubSub();
+const graphql_schema_1 = require("../../graphql.schema");
+const like_resolver_1 = require("../like/like.resolver");
+const like_service_1 = require("../like/like.service");
 let PostResolver = class PostResolver {
-    constructor(commentService, userResolver) {
+    constructor(commentService, userResolver, likeResolver, likeService) {
         this.commentService = commentService;
         this.userResolver = userResolver;
+        this.likeResolver = likeResolver;
+        this.likeService = likeService;
     }
-    async posts(context) {
-        const postList = await typeorm_1.getMongoManager().find(post_entity_1.PostEntity, {});
-        const userList = await Promise.all(postList.map(v => {
-            return this.userResolver.getUserByID(v.who);
-        }));
-        return postList.map((v, k) => {
-            v.who = userList[k];
-            return v;
+    async posts(context, skip) {
+        const limit = 5;
+        const postList = await typeorm_1.getMongoManager().find(post_entity_1.PostEntity, {
+            skip,
+            take: limit,
+            order: {
+                time: -1
+            }
         });
+        return postList;
+    }
+    async getUserByID(p) {
+        const { idWho: id } = p;
+        return this.userResolver.getUserByID(id);
+    }
+    async getLikes(post) {
+        const { _id: id } = post;
+        return this.likeResolver.getLikesByPostID(id);
     }
     async getOnePost(Context, _id) {
         try {
             const savedResult = await typeorm_1.getMongoManager().findOne(post_entity_1.PostEntity, {
                 _id: new mongodb_1.ObjectID(_id)
             });
-            savedResult.who = await this.userResolver.getUserByID(savedResult.who);
             return savedResult;
         }
         catch (error) {
@@ -50,43 +61,14 @@ let PostResolver = class PostResolver {
             return null;
         }
     }
-    async likeAPost(context, postID) {
-        try {
-            const { user } = context;
-            const post = await typeorm_1.getMongoManager().findOne(post_entity_1.PostEntity, { _id: new mongodb_1.ObjectID(postID) });
-            let likes = post.likes || [];
-            if (likes.indexOf(user._id) !== -1) {
-                likes = [...likes.filter(v => v !== user._id)];
-            }
-            else {
-                likes = [...likes, user._id];
-            }
-            const result = await typeorm_1.getMongoManager().findOneAndUpdate(post_entity_1.PostEntity, {
-                _id: new mongodb_1.ObjectID(postID)
-            }, {
-                $set: {
-                    likes: likes
-                }
-            });
-            pubsub.publish('likesChanged', {
-                likesChanged: result.value
-            });
-            return true;
-        }
-        catch (error) {
-            console.log(error);
-            return false;
-        }
-    }
     async addPost(Context, post) {
         try {
-            const { user } = Context;
+            const user = await this.userResolver.getUserByID(Context.user._id);
             const { content, image } = post;
             const newPost = new post_entity_1.PostEntity({
-                who: user._id,
+                idWho: user._id,
                 image,
                 content,
-                likes: [],
                 time: Date.now()
             });
             const savedResult = await typeorm_1.getMongoManager().save(post_entity_1.PostEntity, newPost);
@@ -99,12 +81,13 @@ let PostResolver = class PostResolver {
     async deletePost(Context, id) {
         try {
             const res = await Promise.all([
+                this.likeService.deleteLikeOnePost(id),
                 this.commentService.deleteCommentOnePost(id),
                 typeorm_1.getMongoManager().findOneAndDelete(post_entity_1.PostEntity, {
                     _id: new mongodb_1.ObjectID(id)
                 })
             ]);
-            return (res[1].value) ? true : false;
+            return (res[2].value) ? true : false;
         }
         catch (err) {
             console.log(err);
@@ -128,18 +111,29 @@ let PostResolver = class PostResolver {
             return false;
         }
     }
-    likesChanged() {
-        return pubsub.asyncIterator('likesChanged');
-    }
 };
 __decorate([
     common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Query(),
-    __param(0, graphql_1.Context()),
+    __param(0, graphql_1.Context()), __param(1, graphql_1.Args('skip')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], PostResolver.prototype, "posts", null);
+__decorate([
+    graphql_1.ResolveProperty('who'),
+    __param(0, graphql_1.Parent()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], PostResolver.prototype, "posts", null);
+], PostResolver.prototype, "getUserByID", null);
+__decorate([
+    graphql_1.ResolveProperty('likes'),
+    __param(0, graphql_1.Parent()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PostResolver.prototype, "getLikes", null);
 __decorate([
     common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Query(),
@@ -148,14 +142,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "getOnePost", null);
-__decorate([
-    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
-    graphql_1.Mutation(),
-    __param(0, graphql_1.Context()), __param(1, graphql_1.Args('postID')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], PostResolver.prototype, "likeAPost", null);
 __decorate([
     common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     graphql_1.Mutation(),
@@ -180,24 +166,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "updatePost", null);
-__decorate([
-    graphql_1.Subscription('likesChanged', {
-        filter: (payload, variables, context) => {
-            const { postID } = variables;
-            const { likesChanged } = payload;
-            if (likesChanged._id.toString() === postID)
-                return true;
-            return false;
-        }
-    }),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], PostResolver.prototype, "likesChanged", null);
 PostResolver = __decorate([
     graphql_1.Resolver('Post'),
     __metadata("design:paramtypes", [comment_service_1.CommentService,
-        user_resolver_1.UserResolver])
+        user_resolver_1.UserResolver,
+        like_resolver_1.LikeResolver,
+        like_service_1.LikeService])
 ], PostResolver);
 exports.PostResolver = PostResolver;
 //# sourceMappingURL=post.resolver.js.map

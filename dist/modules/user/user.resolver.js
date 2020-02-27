@@ -18,6 +18,7 @@ const bcrypt = require("bcrypt");
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../../entities/user.entity");
 const graphql_schema_1 = require("../../graphql.schema");
+const post_entity_1 = require("../../entities/post.entity");
 const saltRounds = 10;
 let UserResolver = class UserResolver {
     async users(context) {

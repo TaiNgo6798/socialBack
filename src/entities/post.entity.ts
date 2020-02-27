@@ -1,4 +1,5 @@
-import { Entity, Column, ObjectIdColumn } from 'typeorm'
+import { Entity, Column, ObjectIdColumn, OneToOne, JoinColumn } from 'typeorm'
+import { UserEntity } from './user.entity'
 
 @Entity({
   name: 'post'
@@ -8,7 +9,9 @@ export class PostEntity {
   _id: string
 
   @Column()
-  who: any
+  idWho: string
+  @Column()
+  who: UserEntity
   @Column()
   image: string
   @Column()

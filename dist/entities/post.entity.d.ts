@@ -1,6 +1,8 @@
+import { UserEntity } from './user.entity';
 export declare class PostEntity {
     _id: string;
-    who: any;
+    idWho: string;
+    who: UserEntity;
     image: string;
     content: string;
     likes: any;

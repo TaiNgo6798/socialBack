@@ -3514,12 +3514,16 @@
         "signature": "6e437459c1ffe3e8dec437a4651f230eb99ddc6fa289e04bb37b51b898e61148"
       },
       "../src/graphql.schema.ts": {
-        "version": "cfc81c6cc7a649b482ea16619e29d7d051e260add443fb96a2dbfdae06e0d214",
-        "signature": "8a2edf3ad895c0209f24099f99795bd3c68286d9c4249599e75d225e8a28ef49"
+        "version": "d7bfce8d2698e6d80ada96cef3f20c611ef2a98f95948583b247564f9f7632bc",
+        "signature": "c9e3db7713c30ff2b7fcffa4c366fe3e691d9a53171f9bd4086ab309048d950f"
+      },
+      "../src/entities/post.entity.ts": {
+        "version": "cc899974e5b89b8c471b6560398fd43c06ac5165fd75575173ce67410608b9fa",
+        "signature": "7184c7313654ec137f63d4d431889c0edf768cb3ef99433dfb439fe32485979a"
       },
       "../src/modules/user/user.resolver.ts": {
-        "version": "386034c5c4f8ed06e203566bac0c985c44300bc008983770826fd7f98a117bdd",
-        "signature": "0519820237a308a994f49b20fa43565bc8ba4f8f0f77ed0b7e7d89fc3f91727e"
+        "version": "518ea641e6f9dbece158c60c1506ff75e41f0b67bf04ba06fde527c161272b8b",
+        "signature": "06a4e3bbb582d985e9044f0ef0b47a24f736f1220dda0ed0dd2bc1d586e7bbb1"
       },
       "../src/modules/user/user.module.ts": {
         "version": "ef9f14ae44c5467b834f03f2347bb5b58a9093af8d92073223e3bf79b6f68237",
@@ -3529,10 +3533,6 @@
         "version": "d78e8f80048b526e57a0f58325870e46c4ff347241873e73844fe6cc4681a2e1",
         "signature": "83c448022f25718d9c729f24c2abad1ee4b97fb0e8b2ed0029f6c5bda8b7d1ff"
       },
-      "../src/entities/post.entity.ts": {
-        "version": "88e6a6a0e528b628c04f8164e521e2de7b8f5fa5fe93487d3733036875dbb311",
-        "signature": "c0651dcb5efc8b1c31738d558539acce22467583e497efe8bfd3073db4af56d2"
-      },
       "../src/entities/comments.entity.ts": {
         "version": "ccf32cbae4c8ca7d1fe455b56d0c89fa09a98311e85841cb3e18bf0a3af38a81",
         "signature": "433f30fa3baa72c625ec2c5dacde55b198cf215321b7fdac1842647ce38e3efe"
@@ -3540,6 +3540,22 @@
       "../src/modules/comment/comment.service.ts": {
         "version": "19bc3440a858f4d65a5685ad23335a63a0fadd5619489eeeb9865f209341d7bb",
         "signature": "4ee2f839e95fa08ddffa5c4a4b1d145fa7a65f09447a926024b01832a3482d1c"
+      },
+      "../src/entities/likes.entity.ts": {
+        "version": "e492fa24c305dc86757bd60d886cd3045df16fd458c7431788ddb0e345512b17",
+        "signature": "34bc471ac3a6d865bc76a067963ee7a71ff46fad8a7f65ac3ee06f84b29b9444"
+      },
+      "../src/modules/like/like.resolver.ts": {
+        "version": "99f6c03099bec46a2934cbecc34fe9a0bde31c6de69180ce6e13428a4e29d22b",
+        "signature": "cffd27ab1ca87136201e9511e65db065930f5a6df8c1ea19c3bb5f38978cf0ff"
+      },
+      "../src/modules/like/like.service.ts": {
+        "version": "08deaa600ae02afe263bb6ab14749e5f1ef2e89eeef3d0a27e4058b1609f311e",
+        "signature": "7e8855199745a80025364be35a83c4721f5c7e283a5ff866cfe6c960d52a9170"
+      },
+      "../src/modules/post/post.resolver.ts": {
+        "version": "24205dfdd776776134bab82e4dc3b975cde594d1342c2f1e9e84d47a09736bf9",
+        "signature": "7d864a7dd9dea2a2240afb2642529325ee02d15483b4c1c4ae5a813994723627"
       },
       "../node_modules/graphql-subscriptions/dist/pubsub-engine.d.ts": {
         "version": "4c9aded23c1eb21c4d7a4b03edb29e0611ee88975520a4aa8514186bb22cf20c",
@@ -3556,10 +3572,6 @@
       "../node_modules/graphql-subscriptions/dist/index.d.ts": {
         "version": "bbf290c3ac5379006edacffacd15be4e288cd6d720625d3bc51b3f937b808d79",
         "signature": "bbf290c3ac5379006edacffacd15be4e288cd6d720625d3bc51b3f937b808d79"
-      },
-      "../src/modules/post/post.resolver.ts": {
-        "version": "a97e0a2256d22d89a25353fbd6ee605a4f824952f632dcd39d26480903045aec",
-        "signature": "02f3351babdf759d5ebe2c6639d0eb566f0571a5f65c89fc6e4e004c3f791218"
       },
       "../src/modules/comment/comment.resolver.ts": {
         "version": "cd345db12187d86924b13375086ffbcadf181de793b49c4c092b54f377023e7d",
@@ -5525,12 +5537,16 @@
         "version": "f619c038a428ef3573d0ce041268fdb92cacde05d3113e9f57592e9e014af44e",
         "signature": "4e32d5602e93882968319d299cf31ed9697680443a8e39cd3e0d4ebdd7455519"
       },
+      "../src/modules/like/like.module.ts": {
+        "version": "97976342dc4acdcc093043b90771cb322c2110a20c3cfe1e101de045af1be89b",
+        "signature": "8ab85e673485f7d8df4ecf8a8f84d110e5863db99a2a58843d8bf846b7752579"
+      },
       "../src/modules/post/post.module.ts": {
-        "version": "d58fc132aa30a3cfc4a1a48b196239c899d7c2a75f8a38b3044170cfcec61136",
+        "version": "716d818e380fd7f361228340be08ff903bfeba3aa0224de432bace4f5c51de5a",
         "signature": "031b6c0ffa2d201ad9bdce37175e894ac3dfea4082be9dba1235a596de9c3581"
       },
       "../src/app.module.ts": {
-        "version": "3957917bfb943e636e73534f9aa0810f0fe8ca1a179f103e10354b2dad0fe375",
+        "version": "edb1847102cd639b329202e6ee14d0004a5962611bcf45520d1a907e506693fd",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644"
       },
       "../src/generate.typings.ts": {
@@ -13540,12 +13556,21 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/entities/post.entity.ts": [
+        "../node_modules/typeorm/index.d.ts",
+        "../src/entities/user.entity.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/modules/user/user.resolver.ts": [
         "../node_modules/@nestjs/graphql/index.d.ts",
         "../node_modules/@types/jsonwebtoken/index.d.ts",
         "../node_modules/typeorm/index.d.ts",
         "../src/entities/user.entity.ts",
         "../src/graphql.schema.ts",
+        "../src/entities/post.entity.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -13570,13 +13595,6 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../src/entities/post.entity.ts": [
-        "../node_modules/typeorm/index.d.ts",
-        "../node_modules/@types/node/fs.d.ts",
-        "../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../node_modules/@types/node/util.d.ts",
-        "../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../src/entities/comments.entity.ts": [
         "../node_modules/typeorm/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
@@ -13588,6 +13606,52 @@
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/entities/comments.entity.ts",
         "../node_modules/typeorm/index.d.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/entities/likes.entity.ts": [
+        "../node_modules/typeorm/index.d.ts",
+        "../src/entities/user.entity.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/modules/like/like.resolver.ts": [
+        "../node_modules/@nestjs/graphql/index.d.ts",
+        "../src/graphql.schema.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/entities/likes.entity.ts",
+        "../src/modules/user/user.resolver.ts",
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/common/guard/auth.guard.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/modules/like/like.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/entities/likes.entity.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/modules/post/post.resolver.ts": [
+        "../node_modules/@nestjs/graphql/index.d.ts",
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/common/guard/auth.guard.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/entities/post.entity.ts",
+        "../src/modules/comment/comment.service.ts",
+        "../src/modules/user/user.resolver.ts",
+        "../src/graphql.schema.ts",
+        "../src/modules/like/like.resolver.ts",
+        "../src/modules/like/like.service.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -13618,21 +13682,6 @@
         "../node_modules/graphql-subscriptions/dist/pubsub-engine.d.ts",
         "../node_modules/graphql-subscriptions/dist/pubsub.d.ts",
         "../node_modules/graphql-subscriptions/dist/with-filter.d.ts",
-        "../node_modules/@types/node/fs.d.ts",
-        "../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../node_modules/@types/node/util.d.ts",
-        "../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../src/modules/post/post.resolver.ts": [
-        "../node_modules/@nestjs/graphql/index.d.ts",
-        "../node_modules/@nestjs/common/index.d.ts",
-        "../src/common/guard/auth.guard.ts",
-        "../node_modules/typeorm/index.d.ts",
-        "../src/entities/post.entity.ts",
-        "../src/graphql.schema.ts",
-        "../src/modules/comment/comment.service.ts",
-        "../node_modules/graphql-subscriptions/dist/index.d.ts",
-        "../src/modules/user/user.resolver.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -18384,12 +18433,23 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/modules/like/like.module.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/modules/like/like.resolver.ts",
+        "../src/modules/user/user.module.ts",
+        "../src/modules/like/like.service.ts",
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/modules/post/post.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/modules/post/post.resolver.ts",
         "../src/modules/user/user.module.ts",
         "../src/modules/comment/comment.module.ts",
         "../src/file/file.module.ts",
+        "../src/modules/like/like.module.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
@@ -26977,12 +27037,32 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/entities/post.entity.ts": [
+        "../src/entities/user.entity.ts"
+      ],
       "../src/modules/user/user.resolver.ts": [
-        "../src/graphql.schema.ts"
+        "../src/graphql.schema.ts",
+        "../src/entities/user.entity.ts"
       ],
       "../src/common/guard/auth.guard.ts": [
         "../src/modules/user/user.service.ts",
         "../node_modules/@nestjs/common/index.d.ts"
+      ],
+      "../src/entities/likes.entity.ts": [
+        "../src/entities/user.entity.ts"
+      ],
+      "../src/modules/like/like.resolver.ts": [
+        "../src/entities/user.entity.ts",
+        "../src/modules/user/user.resolver.ts",
+        "../src/graphql.schema.ts"
+      ],
+      "../src/modules/post/post.resolver.ts": [
+        "../src/entities/user.entity.ts",
+        "../src/graphql.schema.ts",
+        "../src/modules/comment/comment.service.ts",
+        "../src/modules/user/user.resolver.ts",
+        "../src/modules/like/like.resolver.ts",
+        "../src/modules/like/like.service.ts"
       ],
       "../node_modules/graphql-subscriptions/dist/pubsub-engine.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
@@ -27013,11 +27093,6 @@
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../src/modules/post/post.resolver.ts": [
-        "../src/modules/comment/comment.service.ts",
-        "../src/modules/user/user.resolver.ts",
-        "../src/graphql.schema.ts"
       ],
       "../src/modules/comment/comment.resolver.ts": [
         "../src/modules/user/user.resolver.ts",
@@ -33691,12 +33766,14 @@
       "../src/modules/user/user.service.ts",
       "../src/entities/user.entity.ts",
       "../src/graphql.schema.ts",
+      "../src/entities/post.entity.ts",
       "../src/modules/user/user.resolver.ts",
       "../src/modules/user/user.module.ts",
       "../src/common/guard/auth.guard.ts",
-      "../src/entities/post.entity.ts",
       "../src/entities/comments.entity.ts",
       "../src/modules/comment/comment.service.ts",
+      "../src/entities/likes.entity.ts",
+      "../src/modules/like/like.service.ts",
       "../node_modules/graphql-subscriptions/dist/pubsub-engine.d.ts",
       "../node_modules/graphql-subscriptions/dist/pubsub.d.ts",
       "../node_modules/graphql-subscriptions/dist/with-filter.d.ts",
@@ -34192,8 +34269,6 @@
       "../node_modules/file-type/index.d.ts",
       "../src/file/file.controller.ts",
       "../src/file/file.module.ts",
-      "../src/modules/post/post.module.ts",
-      "../src/app.module.ts",
       "../src/generate.typings.ts",
       "../src/main.ts",
       "../node_modules/@types/anymatch/index.d.ts",
@@ -34321,7 +34396,11 @@
       "../node_modules/@types/webpack/index.d.ts",
       "../node_modules/@types/yargs-parser/index.d.ts",
       "../node_modules/@types/yargs/index.d.ts",
-      "../src/modules/post/post.resolver.ts"
+      "../src/modules/like/like.resolver.ts",
+      "../src/modules/like/like.module.ts",
+      "../src/modules/post/post.resolver.ts",
+      "../src/modules/post/post.module.ts",
+      "../src/app.module.ts"
     ]
   },
   "version": "3.7.4"
