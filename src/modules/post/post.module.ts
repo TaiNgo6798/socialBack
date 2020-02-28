@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { PostResolver } from './post.resolver'
 import { UserModule } from '../user/user.module'
 import { CommentModule } from '../comment/comment.module'
-import { FileModule } from 'src/file/file.module'
+import { FileModule } from 'src/modules/file/file.module'
 import { LikeModule } from '../like/like.module'
 
 @Module({

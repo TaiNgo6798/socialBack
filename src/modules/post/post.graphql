@@ -17,7 +17,7 @@ type Query {
 }
 
 type Mutation {
-  addPost(post: PostInput!): Boolean
+  addPost(post: PostInput!): Post
   deletePost(postID: String!): Boolean
   updatePost( post: PostEditInput! ): Boolean
 }

@@ -79,7 +79,7 @@ export class PostResolver {
 
   @UseGuards(GqlAuthGuard)
   @Mutation()
-  async addPost(@Context() Context, @Args('post') post): Promise<Boolean> {
+  async addPost(@Context() Context, @Args('post') post): Promise<Post> {
     try {
       const user = await this.userResolver.getUserByID(Context.user._id)
       const { content, image } = post
@@ -90,7 +90,7 @@ export class PostResolver {
         time: Date.now()
       })
       const savedResult = await getMongoManager().save(PostEntity, newPost)
-      return true
+      return savedResult
     } catch (error) {
       return null
     }

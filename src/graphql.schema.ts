@@ -77,7 +77,7 @@ export interface IMutation {
     editOneComment(editInput: EditInput): boolean | Promise<boolean>;
     deleteOneComment(_id: string): boolean | Promise<boolean>;
     doLike(likeInput: LikeInput): boolean | Promise<boolean>;
-    addPost(post: PostInput): boolean | Promise<boolean>;
+    addPost(post: PostInput): Post | Promise<Post>;
     deletePost(postID: string): boolean | Promise<boolean>;
     updatePost(post: PostEditInput): boolean | Promise<boolean>;
     createUser(user?: UserInput): boolean | Promise<boolean>;

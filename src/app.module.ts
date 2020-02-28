@@ -8,7 +8,7 @@ import { join } from 'path'
 import * as jwt from 'jsonwebtoken'
 import { PostModule } from './modules/post/post.module'
 import { CommentModule } from './modules/comment/comment.module'
-import { FileModule } from './file/file.module'
+import { FileModule } from './modules/file/file.module'
 
 @Module({
   imports: [

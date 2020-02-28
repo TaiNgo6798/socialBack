@@ -68,7 +68,7 @@ export class FileService {
           mimeType: 'image/png',
           body: bufferStream
         },
-        fields: 'webContentLink'
+        fields: 'thumbnailLink, webContentLink'
     })
       return res.data.webContentLink
     } catch (error) {
