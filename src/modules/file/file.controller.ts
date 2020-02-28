@@ -28,13 +28,12 @@ export class FileController {
       const { type } = req.query
       const fileType = await FileType.fromBuffer(file.buffer) || false
       if (file.originalname.split('').indexOf('/') !== -1) {
-        throw new HttpException('Stop hacking this !', 400)
+        return new HttpException('Stop hacking this !', 400)
       } else {
-        if (fileType && fileType.ext === 'png') {
+        if (fileType && (fileType.ext === 'png' || fileType.ext === 'jpg')) {
           return this.fileService.uploadToDrive(file, type)
         }
-
-        throw new HttpException('Unsupported Media Type ', 415)
+        return new HttpException('Unsupported Media Type ', 415)
       }
     } catch (error) {
       console.log(error)
@@ -46,7 +45,7 @@ export class FileController {
   async downloadFile(@Req() req, @Res() res) {
     const { id, type } = req.query
     if (id.split('').indexOf('/') !== -1) {
-      throw new HttpException('Stop hacking this !', 400)
+      return new HttpException('Stop hacking this !', 400)
     }
     return this.fileService.sendFile(id, res, type)
   }
