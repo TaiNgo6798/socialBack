@@ -10,6 +10,11 @@ export interface CommentInput {
     text: string;
 }
 
+export interface DeleteInput {
+    postID: string;
+    imageID?: string;
+}
+
 export interface EditInput {
     _id: string;
     text: string;
@@ -31,7 +36,7 @@ export interface PostEditInput {
 
 export interface PostInput {
     content: string;
-    image: ImageInput;
+    image?: ImageInput;
 }
 
 export interface UserInput {
@@ -87,8 +92,8 @@ export interface IMutation {
     deleteOneComment(_id: string): boolean | Promise<boolean>;
     doLike(likeInput: LikeInput): boolean | Promise<boolean>;
     addPost(post: PostInput): Post | Promise<Post>;
-    deletePost(postID: string): boolean | Promise<boolean>;
-    updatePost(post?: PostEditInput): boolean | Promise<boolean>;
+    deletePost(deleteInput: DeleteInput): boolean | Promise<boolean>;
+    updatePost(post: PostEditInput): boolean | Promise<boolean>;
     createUser(user?: UserInput): boolean | Promise<boolean>;
     login(loginInput?: UserLoginInput): LoginRes | Promise<LoginRes>;
 }

@@ -18,8 +18,13 @@ type Query {
 
 type Mutation {
   addPost(post: PostInput!): Post
-  deletePost(postID: String!): Boolean
-  updatePost( post: PostEditInput): Boolean
+  deletePost(deleteInput: DeleteInput!): Boolean
+  updatePost( post: PostEditInput!): Boolean
+}
+
+input DeleteInput {
+  postID: String!
+  imageID: String
 }
 
 input PostEditInput {
@@ -29,7 +34,7 @@ input PostEditInput {
 
 input PostInput {
   content: String!
-  image: ImageInput!
+  image: ImageInput
 }
 
 input ImageInput{

@@ -18,6 +18,7 @@ import { UserResolver } from '../user/user.resolver'
 import { Post } from 'src/graphql.schema'
 import { LikeResolver } from '../like/like.resolver'
 import { LikeService } from '../like/like.service'
+import { FileService } from '../file/file.service'
 
 
 
@@ -29,7 +30,8 @@ export class PostResolver {
     private readonly commentService: CommentService,
     private readonly userResolver: UserResolver,
     private readonly likeResolver: LikeResolver,
-    private readonly likeService: LikeService
+    private readonly likeService: LikeService,
+    private readonly fileService: FileService
   ) { }
 
 
@@ -37,7 +39,7 @@ export class PostResolver {
   @UseGuards(GqlAuthGuard)
   @Query()
   async posts(@Context() context, @Args('skip') skip): Promise<Post[]> {
-    const limit = 5
+    const limit = 10
     const postList = await getMongoManager().find(PostEntity, {
       skip,
       take: limit,
@@ -98,17 +100,18 @@ export class PostResolver {
 
   @UseGuards(GqlAuthGuard)
   @Mutation()
-  async deletePost(@Context() Context, @Args('postID') id): Promise<Boolean> {
+  async deletePost(@Context() Context, @Args('deleteInput') deleteInput): Promise<Boolean> {
     try {
+      const { postID, imageID } = deleteInput
       const res = await Promise.all([
-        this.likeService.deleteLikeOnePost(id),
-        this.commentService.deleteCommentOnePost(id),
+        this.likeService.deleteLikeOnePost(postID),
+        this.commentService.deleteCommentOnePost(postID),
+        this.fileService.deleteFile(imageID ),
         getMongoManager().findOneAndDelete(PostEntity, {
-          _id: new ObjectID(id)
+          _id: new ObjectID(postID)
         })
       ])
-
-      return (res[2].value) ? true : false
+      return (res[3].value) ? true : false
     } catch (err) {
       console.log(err)
       return false
