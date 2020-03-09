@@ -13,7 +13,7 @@ export class PostEntity {
   @Column()
   who: UserEntity
   @Column()
-  image: string
+  image: any
   @Column()
   content: string
   @Column()

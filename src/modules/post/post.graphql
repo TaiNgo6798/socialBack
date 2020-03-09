@@ -3,7 +3,7 @@ type Post {
   _id: ID
   idWho: String
   who: User
-  image: String
+  image: Image
   content: String
   likes: [Like]
   time: Float
@@ -19,19 +19,27 @@ type Query {
 type Mutation {
   addPost(post: PostInput!): Post
   deletePost(postID: String!): Boolean
-  updatePost( post: PostEditInput! ): Boolean
+  updatePost( post: PostEditInput): Boolean
 }
 
-
 input PostEditInput {
-    _id: ID!
-  content: String,
-  image: String
+    _id: ID!,
+  content: String
 }
 
 input PostInput {
-  content: String!,
-  image: String!
+  content: String!
+  image: ImageInput!
+}
+
+input ImageInput{
+  id: String!
+  url: String!
+}
+
+type Image {
+  id: String
+  url: String
 }
 
 

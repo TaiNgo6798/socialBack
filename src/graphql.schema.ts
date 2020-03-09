@@ -15,6 +15,11 @@ export interface EditInput {
     text: string;
 }
 
+export interface ImageInput {
+    id: string;
+    url: string;
+}
+
 export interface LikeInput {
     postID: string;
 }
@@ -22,12 +27,11 @@ export interface LikeInput {
 export interface PostEditInput {
     _id: string;
     content?: string;
-    image?: string;
 }
 
 export interface PostInput {
     content: string;
-    image: string;
+    image: ImageInput;
 }
 
 export interface UserInput {
@@ -59,6 +63,11 @@ export interface CommentOutput {
     time?: number;
 }
 
+export interface Image {
+    id?: string;
+    url?: string;
+}
+
 export interface Like {
     _id?: string;
     who?: User;
@@ -79,7 +88,7 @@ export interface IMutation {
     doLike(likeInput: LikeInput): boolean | Promise<boolean>;
     addPost(post: PostInput): Post | Promise<Post>;
     deletePost(postID: string): boolean | Promise<boolean>;
-    updatePost(post: PostEditInput): boolean | Promise<boolean>;
+    updatePost(post?: PostEditInput): boolean | Promise<boolean>;
     createUser(user?: UserInput): boolean | Promise<boolean>;
     login(loginInput?: UserLoginInput): LoginRes | Promise<LoginRes>;
 }
@@ -88,7 +97,7 @@ export interface Post {
     _id?: string;
     idWho?: string;
     who?: User;
-    image?: string;
+    image?: Image;
     content?: string;
     likes?: Like[];
     time?: number;

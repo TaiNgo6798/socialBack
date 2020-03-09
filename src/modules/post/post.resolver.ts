@@ -117,7 +117,7 @@ export class PostResolver {
 
   @UseGuards(GqlAuthGuard)
   @Mutation()
-  async updatePost(@Context() Context, @Args('post') post): Promise<Boolean> {
+  async updatePost(@Args('post') post): Promise<Boolean> {
     try {
       const { _id, content } = post
       const res = await getMongoManager().findOneAndUpdate(PostEntity, {

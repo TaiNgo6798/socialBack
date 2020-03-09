@@ -68,9 +68,12 @@ export class FileService {
           mimeType: 'image/png',
           body: bufferStream
         },
-        fields: 'thumbnailLink, webContentLink'
+        fields: 'thumbnailLink, webContentLink, id'
     })
-      return res.data.webContentLink
+      return {
+        url: res.data.webContentLink,
+        id: res.data.id
+      }
     } catch (error) {
       return 'cant upload !'
     }
