@@ -14,6 +14,8 @@ export class LikeEntity {
   postID: string
   @Column()
   idWho: string
+  @Column()
+  react: any
   
   constructor(args: Partial<LikeEntity>) {
     Object.assign(this, args)

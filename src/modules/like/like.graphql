@@ -3,6 +3,7 @@ type Like {
   who: User
   postID: String
   idWho: String
+  react: REACT
 }
 
 type Query {
@@ -15,4 +16,14 @@ type Mutation {
 
 input LikeInput {
   postID: String!
+  react: REACT!
+}
+
+enum REACT {
+    LIKE
+    LOVE
+    HAHA
+    WOW
+    SAD
+    ANGRY
 }

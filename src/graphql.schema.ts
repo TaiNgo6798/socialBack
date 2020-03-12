@@ -5,6 +5,15 @@
  */
 
 /* tslint:disable */
+export enum REACT {
+    LIKE = "LIKE",
+    LOVE = "LOVE",
+    HAHA = "HAHA",
+    WOW = "WOW",
+    SAD = "SAD",
+    ANGRY = "ANGRY"
+}
+
 export interface CommentInput {
     postID: string;
     text: string;
@@ -27,6 +36,7 @@ export interface ImageInput {
 
 export interface LikeInput {
     postID: string;
+    react: REACT;
 }
 
 export interface PostEditInput {
@@ -78,6 +88,7 @@ export interface Like {
     who?: User;
     postID?: string;
     idWho?: string;
+    react?: REACT;
 }
 
 export interface LoginRes {
