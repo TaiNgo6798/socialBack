@@ -20,6 +20,8 @@ export class PostEntity {
   likes: any
   @Column()
   time: number
+  @Column()
+  commentsCount: number
 
   constructor(args: Partial<PostEntity>) {
     Object.assign(this, args)

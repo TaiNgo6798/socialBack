@@ -19,6 +19,7 @@ import { Post } from 'src/graphql.schema'
 import { LikeResolver } from '../like/like.resolver'
 import { LikeService } from '../like/like.service'
 import { FileService } from '../file/file.service'
+import { CommentResolver } from '../comment/comment.resolver'
 
 
 
@@ -28,6 +29,7 @@ export class PostResolver {
 
   constructor(
     private readonly commentService: CommentService,
+    private readonly commentResolver: CommentResolver,
     private readonly userResolver: UserResolver,
     private readonly likeResolver: LikeResolver,
     private readonly likeService: LikeService,
@@ -53,13 +55,22 @@ export class PostResolver {
   @ResolveProperty('who')
   async getUserByID(@Parent() p) {
     const { idWho: id } = p
-    return this.userResolver.getUserByID(id)
+    const result = await this.userResolver.getUserByID(id)
+    return result
   }
 
   @ResolveProperty('likes')
   async getLikes(@Parent() post) {
     const { _id: id } = post
-    return this.likeResolver.getLikesByPostID(id)
+    const result = this.likeResolver.getLikesByPostID(id)
+    return result 
+  }
+
+  @ResolveProperty('commentsCount')
+  async countCmt(@Parent() post) {
+    const {_id: postID} = post
+    const result = await this.commentResolver.countCommentByPostID(postID)
+    return result
   }
 
   @UseGuards(GqlAuthGuard)

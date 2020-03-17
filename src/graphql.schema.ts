@@ -64,15 +64,8 @@ export interface UserLoginInput {
 
 export interface Comment {
     _id?: string;
-    who?: string;
-    postID?: string;
-    text?: string;
-    time?: number;
-}
-
-export interface CommentOutput {
-    _id?: string;
-    who?: UserInfo;
+    who?: User;
+    userID?: string;
     postID?: string;
     text?: string;
     time?: number;
@@ -117,10 +110,12 @@ export interface Post {
     content?: string;
     likes?: Like[];
     time?: number;
+    commentsCount?: number;
 }
 
 export interface IQuery {
-    getCommentsByPostID(postID: string): CommentOutput[] | Promise<CommentOutput[]>;
+    getCommentsByPostID(postID: string): Comment[] | Promise<Comment[]>;
+    countCommentByPostID(postID: string): number | Promise<number>;
     getLikesByPostID(postID: string): Like[] | Promise<Like[]>;
     posts(skip: number): Post[] | Promise<Post[]>;
     getOnePost(_id: string): Post | Promise<Post>;

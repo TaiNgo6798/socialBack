@@ -1,10 +1,9 @@
-import { Resolver, Query, Args, Mutation, Context, Subscription } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, Context, Subscription, ResolveProperty, Parent } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/common/guard/auth.guard';
 import { getMongoManager } from 'typeorm';
 import { CommentEntity } from 'src/entities/comments.entity';
 import { UserResolver } from '../user/user.resolver';
-import { CommentOutput } from '../../graphql.schema'
 import { ObjectID } from 'mongodb'
 import { PubSub } from 'graphql-subscriptions'
 
@@ -16,37 +15,38 @@ export class CommentResolver {
   constructor(
     private readonly userResolver: UserResolver
   ) { }
+
   //-----------------------------------------------------------------------------------QUERIES------------------------------------------------------------------------------------------------------------------------
   @UseGuards(GqlAuthGuard)
   @Query()
-  async getCommentsByPostID(@Args('postID') postID): Promise<CommentOutput[]> {
+  async getCommentsByPostID(@Args('postID') postID): Promise<CommentEntity[]> {
     try {
-      console.time()
       const comments = await getMongoManager().find(CommentEntity, {
         postID
       })
-      const userList = await Promise.all(
-        comments.map(v => {
-          return this.userResolver.getUserByID(v.who)
-        }))
-        console.timeEnd()
-      return userList.map((v, k) => {
-        const { _id, postID, text, time } = comments[k]
-        let comment = {
-          _id,
-          who: v,
-          postID,
-          text,
-          time
-        }
-        return comment
-      })
-
-    } catch (error) {
+      return comments
+    }
+    catch (error) {
       console.log(error)
       return null
     }
 
+  }
+
+  @ResolveProperty('who')
+  async getUserByID(@Parent() c) {
+    const { userID: id } = c
+    const result = await this.userResolver.getUserByID(id)
+    return result
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Query()
+  async countCommentByPostID(@Args('postID') _id) {
+    const result = await getMongoManager().count(CommentEntity, {
+      postID: _id.toString()
+    })
+    return result
   }
 
   //-----------------------------------------------------------------------------------MUTATIONS------------------------------------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ export class CommentResolver {
       const { postID, text } = commentInput
       const { user } = context
       const newComment = new CommentEntity({
-        who: user._id,
+        userID: user._id,
         postID,
         text,
         time: Date.now()

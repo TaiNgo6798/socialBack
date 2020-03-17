@@ -1,13 +1,15 @@
 type Comment {
   _id: ID
-  who: String
+  who: User,
+  userID: String
   postID: String
   text: String
   time: Float
 }
 
 type Query {
-  getCommentsByPostID(postID: String!): [CommentOutput]
+  getCommentsByPostID(postID: String!): [Comment]
+  countCommentByPostID(postID: String!): Float
 }
 
 type Mutation {
@@ -30,10 +32,3 @@ input EditInput {
   text: String!
 }
 
-type CommentOutput {
-    _id: ID
-  who: UserInfo
-  postID: String
-  text: String
-  time: Float
-}
