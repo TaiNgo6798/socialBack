@@ -16,10 +16,23 @@ type Mutation {
   postOneComment(commentInput: CommentInput!): Boolean
   editOneComment(editInput: EditInput!): Boolean
   deleteOneComment(_id: String!): Boolean
+  commentStatus(input: TypingInput!): Boolean
 }
 
 type Subscription {
   commentCreated(postID: String!): Comment
+  commentTyping(postID: String!): Typing
+}
+
+type Typing {
+  postID: String
+  status: Boolean
+}
+
+input TypingInput {
+  postID: String!
+  status: Boolean!
+  idWho: String!
 }
 
 input CommentInput {

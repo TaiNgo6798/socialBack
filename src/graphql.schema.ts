@@ -49,6 +49,12 @@ export interface PostInput {
     image?: ImageInput;
 }
 
+export interface TypingInput {
+    postID: string;
+    status: boolean;
+    idWho: string;
+}
+
 export interface UserInput {
     email: string;
     password: string;
@@ -94,6 +100,7 @@ export interface IMutation {
     postOneComment(commentInput: CommentInput): boolean | Promise<boolean>;
     editOneComment(editInput: EditInput): boolean | Promise<boolean>;
     deleteOneComment(_id: string): boolean | Promise<boolean>;
+    commentStatus(input: TypingInput): boolean | Promise<boolean>;
     doLike(likeInput: LikeInput): boolean | Promise<boolean>;
     addPost(post: PostInput): Post | Promise<Post>;
     deletePost(deleteInput: DeleteInput): boolean | Promise<boolean>;
@@ -126,6 +133,12 @@ export interface IQuery {
 
 export interface ISubscription {
     commentCreated(postID: string): Comment | Promise<Comment>;
+    commentTyping(postID: string): Typing | Promise<Typing>;
+}
+
+export interface Typing {
+    postID?: string;
+    status?: boolean;
 }
 
 export interface User {

@@ -22,7 +22,12 @@ export class CommentResolver {
   async getCommentsByPostID(@Args('postID') postID): Promise<CommentEntity[]> {
     try {
       const comments = await getMongoManager().find(CommentEntity, {
-        postID
+        where:{
+          postID
+        },
+        order: {
+          time: -1
+        }
       })
       return comments
     }
@@ -49,7 +54,19 @@ export class CommentResolver {
     return result
   }
 
+
+
   //-----------------------------------------------------------------------------------MUTATIONS------------------------------------------------------------------------------------------------------------------------
+  @UseGuards(GqlAuthGuard)
+  @Mutation()
+  async commentStatus(@Args('input') input) {
+    //tra ve cho subscription
+    pubsub.publish('commentTyping', {
+      commentTyping: input
+    })
+    return input.status
+  }
+  
   @UseGuards(GqlAuthGuard)
   @Mutation()
   async editOneComment(@Args('editInput') editInput): Promise<Boolean> {
@@ -95,6 +112,8 @@ export class CommentResolver {
     }
   }
 
+
+
   //-----------------------------------------------------SUBSCRIPTIONS-------------------------------------------------------------------------
   @Subscription('commentCreated', {
     filter: (payload, variables, context) => {
@@ -110,6 +129,24 @@ export class CommentResolver {
   })
   commentCreated() {
     return pubsub.asyncIterator('commentCreated')
+  }
+
+  @Subscription('commentTyping', {
+    filter: (payload, variables, context) => {
+      // payload: du lieu tra ve cho subscription
+      // variables: cac bien truyen vao tu Graphql Subscription (post.graphql)
+      // context truyen tu ham onConnect ben module
+      const { postID } = variables
+      const { commentTyping } = payload
+      const { req: {_id} } = context
+      console.log(commentTyping.idWho)
+      if (commentTyping.postID === postID && commentTyping.idWho !== _id)
+        return true
+      return false
+    }
+  })
+  commentTyping() {
+    return pubsub.asyncIterator('commentTyping')
   }
 
 }
