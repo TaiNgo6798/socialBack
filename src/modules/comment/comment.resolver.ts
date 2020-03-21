@@ -112,6 +112,14 @@ export class CommentResolver {
     }
   }
 
+  @UseGuards(GqlAuthGuard)
+  @Mutation()
+  async deleteOneComment(@Args('_id') _id): Promise<Boolean> {
+    const res = await getMongoManager().findOneAndDelete(CommentEntity, {
+      _id: new ObjectID(_id)
+    })
+    return res.value ? true : false
+  }
 
 
   //-----------------------------------------------------SUBSCRIPTIONS-------------------------------------------------------------------------
@@ -139,7 +147,6 @@ export class CommentResolver {
       const { postID } = variables
       const { commentTyping } = payload
       const { req: {_id} } = context
-      console.log(commentTyping.idWho)
       if (commentTyping.postID === postID && commentTyping.idWho !== _id)
         return true
       return false

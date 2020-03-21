@@ -140,7 +140,6 @@ export class PostResolver {
         {
           $set: {
             content,
-            time: Date.now()
           }
         })
       return res.value ? true : false
